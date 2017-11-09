@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<request
+    xmlns="urn://egisso-ru/msg/10.05.I/1.0.3"
+    xmlns:pac="urn://egisso-ru/types/package-LMSZ/1.0.2"
+    xmlns:LMSZ="urn://egisso-ru/types/local-MSZ/1.0.2"
+>
+  <pac:package>
+    <pac:packageID>21f69160-97eb-4baf-9616-e7f6e9a35fb2</pac:packageID>
+    <pac:elements>
+      <pac:localMSZ>
+        <LMSZ:ID>d0a80e52-5295-4e9c-a9bc-4ade2ee08760</LMSZ:ID>
+        <LMSZ:code>0102</LMSZ:code>
+        <LMSZ:title>Какая-то локальная мера</LMSZ:title>
+        <LMSZ:dateEnact>2017-05-04</LMSZ:dateEnact>
+        <LMSZ:dateExpiration>2017-05-05</LMSZ:dateExpiration>
+        <LMSZ:periodicityCode>05</LMSZ:periodicityCode>
+        <LMSZ:classificationKMSZ>
+          <LMSZ:codePartKMSZ>111111</LMSZ:codePartKMSZ>
+          <LMSZ:codeMSZ>1111</LMSZ:codeMSZ>
+          <LMSZ:codeProvisionForm>11</LMSZ:codeProvisionForm>
+          <LMSZ:codeLevelNPA>11</LMSZ:codeLevelNPA>
+          <LMSZ:localCategories>
+            <LMSZ:localCategory>
+              <LMSZ:ID>d4b6753e-e2b5-404d-b6ff-1cadc0fb66d7</LMSZ:ID>
+              <LMSZ:code>01</LMSZ:code>
+              <LMSZ:title>Инвалиды умственного труда</LMSZ:title>
+              <LMSZ:codeCategoryKMSZ>11111111</LMSZ:codeCategoryKMSZ>
+            </LMSZ:localCategory>
+            <LMSZ:localCategory>
+              <LMSZ:ID>e7ededdd-4a4d-4699-aa00-3662bf3174e3</LMSZ:ID>
+              <LMSZ:code>02</LMSZ:code>
+              <LMSZ:title>Пострадавшие в результате падения Челябинского метеорита</LMSZ:title>
+              <LMSZ:codeCategoryKMSZ>11111112</LMSZ:codeCategoryKMSZ>
+            </LMSZ:localCategory>
+          </LMSZ:localCategories>
+          <LMSZ:cofinancing>
+            <LMSZ:fundingSource>
+              <LMSZ:codeFundingSource>0001</LMSZ:codeFundingSource>
+              <LMSZ:quota>100</LMSZ:quota>
+            </LMSZ:fundingSource>
+          </LMSZ:cofinancing>
+        </LMSZ:classificationKMSZ>
+        <LMSZ:territories>
+          <LMSZ:codeOKTMO>75603000</LMSZ:codeOKTMO>
+          <LMSZ:codeOKTMO>75606000</LMSZ:codeOKTMO>
+        </LMSZ:territories>
+        <LMSZ:reasons>
+          <LMSZ:NPA>
+            <LMSZ:number>100/2017</LMSZ:number>
+            <LMSZ:date>2017-05-04</LMSZ:date>
+            <LMSZ:title>Постановление председателя колхоза "Вперед"</LMSZ:title>
+            <LMSZ:authority>Кружок "Умелые руки" при доме пионеров</LMSZ:authority>
+            <LMSZ:URL>https://www.gazeta.ru/social/2017/05/03/10655153.shtml</LMSZ:URL>
+          </LMSZ:NPA>
+        </LMSZ:reasons>
+        <LMSZ:KBKCode>01234567890123456789</LMSZ:KBKCode>
+        <pac:lastChanging>2017-05-04T17:25:44+03:00</pac:lastChanging>
+      </pac:localMSZ>
+    </pac:elements>
+  </pac:package>
+</request>

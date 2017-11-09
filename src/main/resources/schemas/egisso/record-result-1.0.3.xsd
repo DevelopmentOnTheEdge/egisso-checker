@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
+  xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+  xmlns="urn://egisso-ru/types/record-result/1.0.3"
+  targetNamespace="urn://egisso-ru/types/record-result/1.0.3"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: РЕЗУЛЬТАТ ОБРАБОТКИ ЗАПИСИ ПАКЕТА ДАННЫХ
+  ****************************************************************************************************
+  -->
+
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
+  <xsd:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" schemaLocation="../smev3/smev-supplementary-commons-1.0.1.xsd" />
+
+  <xsd:element name="recordResult" type="tRecordResult">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        результат обработки записи пакета данных
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:complexType name="tRecordResult">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: результат обработки записи пакета данных
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="recID" type="smev:string-200" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор элемента
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:choice>
+        <xsd:element name="recordOK" type="xsd:boolean" minOccurs="1" maxOccurs="1" fixed="true">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="ru">
+              Признак успешной обработки записи
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="recordError" minOccurs="1" maxOccurs="unbounded">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="ru">
+              Ошибочный элемент
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="ruleCode" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                  <xsd:documentation xml:lang="ru">
+                    Код нарушенного правила проверки
+                  </xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="\d{3}" />
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:element>
+              <xsd:element name="report" type="smev:string-500" minOccurs="1" maxOccurs="1">
+                <xsd:annotation>
+                  <xsd:documentation xml:lang="ru">
+                    Сообщение об ошибке
+                  </xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
