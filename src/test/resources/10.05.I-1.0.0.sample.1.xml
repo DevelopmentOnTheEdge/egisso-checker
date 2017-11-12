@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<request
+<_request
     xmlns="urn://egisso-ru/msg/10.05.I/1.0.3"
     xmlns:pac="urn://egisso-ru/types/package-LMSZ/1.0.2"
     xmlns:LMSZ="urn://egisso-ru/types/local-MSZ/1.0.2"
@@ -58,4 +58,4 @@
       </pac:localMSZ>
     </pac:elements>
   </pac:package>
-</request>
+</_request>
