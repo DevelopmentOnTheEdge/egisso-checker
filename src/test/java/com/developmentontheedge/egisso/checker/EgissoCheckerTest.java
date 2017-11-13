@@ -1,12 +1,9 @@
 package com.developmentontheedge.egisso.checker;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-
-import org.xml.sax.SAXException;
 
 import junit.framework.TestCase;
 
@@ -24,26 +21,25 @@ public class EgissoCheckerTest extends TestCase
     public void testRuMessageBundle()
     {
         Locale ru = new Locale("ru");
-    	ResourceBundle bundle = PropertyResourceBundle.getBundle("com.sun.org.apache.xerces.internal.impl.msg.XMLSchemaMessages", ru);
-    	String msg = bundle.getString("cvc-type.3.1.3");
-    	assertEquals(msg, "cvc-type.3.1.3: Значение ''{1}'' элемента ''{0}'' недопустимо.");
-    	
-    	System.out.println(bundle.getString("cvc-complex-type.2.4.d"));
+        ResourceBundle bundle = PropertyResourceBundle.getBundle("com.sun.org.apache.xerces.internal.impl.msg.XMLSchemaMessages", ru);
+
+        assertEquals( "cvc-type.3.1.3: Значение ''{1}'' элемента ''{0}'' недопустимо.", bundle.getString("cvc-type.3.1.3") );
+
+        // native2ascii.exe fileName or native2ascii.exe and enter the string 
+        assertEquals( "cvc-complex-type.2.4.d: Неверное содержимое, начиная с элемента ''{0}''. Не ожидалось никакого дочернего элемента в данной позиции.", bundle.getString("cvc-complex-type.2.4.d") );
     }
-    
-    public void testExample()
+
+    public void testExample() throws Exception
     {
-        // example for PFR
         String fileName = "10.05.I-1.0.0.sample.1.xml"; 
 
-        File file = new File(relativePath + fileName);
-        assertTrue("File is missing: " + file.getAbsolutePath(), file.exists());
+        EgissoChecker checker = new EgissoChecker();
+        checker.checkLocalMSZ(relativePath + fileName);
     }
 
-    public void testLocalMSZ() throws SAXException, IOException
+    public void testLocalMSZ() throws Exception
     {
-        String fileName = "10.05.I-1.0.0.sample.1.xml";
-        //String fileName = "local-MSZ.xml"; 
+        String fileName = "local-MSZ.xml"; 
 
         EgissoChecker checker = new EgissoChecker();
         checker.checkLocalMSZ(relativePath + fileName);
