@@ -120,11 +120,9 @@ public class EgissoChecker
         else
         {
             System.out.println("\r\nОбнаружено ошибок: " + errorHandler.errorNum );
-            System.out.println("\r\nФайл с ошибками: " + fileErrors.getAbsolutePath() + ", файл протокола " + fileProtocol.getAbsolutePath() );
 
             StringWriter result = new StringWriter();
             errorHandler.printProtocol( new PrintWriter(result) );
-            org.junit.Assert.fail( result.toString() );
         }
     }
 

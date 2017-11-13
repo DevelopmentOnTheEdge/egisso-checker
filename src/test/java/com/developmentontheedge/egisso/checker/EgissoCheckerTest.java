@@ -24,22 +24,12 @@ public class EgissoCheckerTest extends TestCase
         ResourceBundle bundle = PropertyResourceBundle.getBundle("com.sun.org.apache.xerces.internal.impl.msg.XMLSchemaMessages", ru);
 
         assertEquals( "cvc-type.3.1.3: Значение ''{1}'' элемента ''{0}'' недопустимо.", bundle.getString("cvc-type.3.1.3") );
-
-        // native2ascii.exe fileName or native2ascii.exe and enter the string 
         assertEquals( "cvc-complex-type.2.4.d: Неверное содержимое, начиная с элемента ''{0}''. Не ожидалось никакого дочернего элемента в данной позиции.", bundle.getString("cvc-complex-type.2.4.d") );
     }
 
     public void testExample() throws Exception
     {
         String fileName = "10.05.I-1.0.0.sample.1.xml"; 
-
-        EgissoChecker checker = new EgissoChecker();
-        checker.checkLocalMSZ(relativePath + fileName);
-    }
-
-    public void testLocalMSZ() throws Exception
-    {
-        String fileName = "local-MSZ.xml"; 
 
         EgissoChecker checker = new EgissoChecker();
         checker.checkLocalMSZ(relativePath + fileName);
