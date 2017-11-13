@@ -226,7 +226,13 @@ public class EgissoChecker
 
         protected void printProtocol(PrintWriter protocol)
         {
-            protocol.println("\r\nСтатистика по ошибкам (число - описание ошибки):");
+        	if( isOK )
+        	{
+                protocol.println("\r\nОшибок не обнаружено.");
+                return;
+        	}
+            
+        	protocol.println("\r\nСтатистика по ошибкам (число - описание ошибки):");
 
             // сортируем ошибки по числу, вначале - самые частые
             Map<String, AtomicInteger> map = sortByValue(errorsMap);
