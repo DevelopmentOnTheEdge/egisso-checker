@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+  xmlns="urn://egisso-ru/types/basic/1.0.3"
+  targetNamespace="urn://egisso-ru/types/basic/1.0.3"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+  version="1.1"
+>
+
+  <xsd:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" schemaLocation="../smev3/smev-supplementary-commons-1.0.1.xsd" />
+
+  <!--==========================================  Базовые структурированные типы  ==========================================-->
+
+  <xsd:simpleType name="UUID">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: UUID
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="tParticipantCode">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: код участника ЕГИССО
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\d{4}\.\d{6}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="tOKEICode">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: код по ОКЕИ
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="(\d{3})|(\d{4})" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="tClsCode">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: код общесистменого классификатора/справочника
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="010">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Классификатор МСЗ (полный)
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="011">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «011 Реестр МСЗ»
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="012">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «012 Разделы КМСЗ»
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="013">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «013 Перечень категорий получателей МСЗ»
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="014">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «014 Справочник уровней НПА»
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="015">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «015 Справочник источников финансирования»
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="016">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «016 Справочник форм предоставления МСЗ»
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="017">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «017 Правила КМСЗ»
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="020">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Справочник территориальных образований на базе ОКТМО
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="021">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Справочник стран мира на базе ОКСМ
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="022">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Справочник периодичности предоставления МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="023">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Справочник единиц измерения
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="024">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Справочник видов документов, удостоверяющих личность
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="025">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «025 Реестр участников ЕГИССО»
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="tVersionStatus">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: статус версии общесистемного классификатора/справочника
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:positiveInteger">
+      <xsd:enumeration value="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «1» : проект
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="2">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «2» : в процессе публикации
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="3">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «3» : опубликована
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="4">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «4» : в процессе активации
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="5">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «5» : активна
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="6">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            «6» : архив
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="tMoney">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: деньги
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[0-9]+(\.|\,)\d{2}" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="tAddress">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: адрес
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="OKSMCode" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Код страны по ОКСМ
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{3}" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="PostIndex" type="smev:PostalCodeRFType" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Почтовый индекс
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Region" type="smev:string-100" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Регион
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="District" type="smev:string-100" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Район
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="City" type="smev:string-100" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Населенный пункт
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Street" type="smev:string-100" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Улица
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="House" type="smev:string-10" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дом
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Housing" type="smev:string-10" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Корпус
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Apartment" type="smev:string-10" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Квартира
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="tClsVersion">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: версия классификатора
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="version_num" type="xsd:positiveInteger" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Номер версии
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="version_status" type="tVersionStatus" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Статус версии
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="start_date" type="xsd:dateTime" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата начала действия версии
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="finish_date" type="xsd:dateTime" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата окончания действия версии
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="document" type="smev:string-200" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Документ-основание ввода в действие
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="note" type="smev:string-200" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Комментарий
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="tError">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: ошибка
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="code" type="smev:string-10" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Код ошибки
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="message" type="smev:string-200" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Текст ошибки
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="time" type="xsd:dateTime" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Время возникновения ошибки
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="tFactId">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: Идентификатор факта назначения МСЗ
+      </xsd:documentation>
+    </xsd:annotation>
+  <xsd:sequence>
+    <xsd:element name="SNILS" type="smev:SNILSType" minOccurs="1" maxOccurs="1">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="ru">
+          СНИЛС
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="MSZ" type="UUID" minOccurs="1" maxOccurs="1">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="ru">
+          Идентификатор ЛМСЗ
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="decision_date" type="xsd:date" minOccurs="1" maxOccurs="1">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="ru">
+          Дата принятия решения о назначении
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:element>
+  </xsd:sequence>
+</xsd:complexType>
+
+
+</xsd:schema>

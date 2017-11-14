@@ -26,9 +26,10 @@ import org.xml.sax.SAXParseException;
 
 public class EgissoChecker
 {
-    public static final String VERSION       = "0.1.0";
-    public static final String XSD_LOCAL_MSZ = "10.05.I-1.0.3.xsd";
-    public static final String USAGE 		 = "java -jar egisso-checker" + VERSION + ".jar файл_для_проверки";
+    public static final String VERSION             = "0.2.0";
+    public static final String XSD_LOCAL_MSZ       = "10.05.I-1.0.3.xsd";
+    public static final String XSD_ASSIGNMENT_FACT = "10.06.S-1.0.1.xsd";
+    public static final String USAGE 		       = "java -jar egisso-checker" + VERSION + ".jar файл_для_проверки";
 
     public static void main(String[] args)
     {
@@ -129,8 +130,7 @@ public class EgissoChecker
     protected Validator createValidator(String schemaFileName, PrintWriter errors) throws SAXException
     {
         SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-        ErrorHandler errorHandler = new CheckerErrorHandler(errors);
-        factory.setErrorHandler( errorHandler ); // TODO
+        factory.setErrorHandler(new XMLSchemaErrorHandler());
         Schema schema = factory.newSchema( EgissoChecker.class.getClassLoader().getResource(schemaFileName) );
 
         Validator validator = schema.newValidator();
@@ -244,4 +244,30 @@ public class EgissoChecker
         }
     }
 
+    // /////////////////////////////////////////////////////////////////////////
+    // XMLSchemaErrorHandler
+    // 
+
+    public static class XMLSchemaErrorHandler implements ErrorHandler
+    {
+        boolean isOK = true;
+        
+        public void error(SAXParseException e)
+        {
+            isOK = false;
+            System.out.println("Ошибка загрузки схемы: " + e);
+        }
+
+        public void fatalError(SAXParseException e)
+        {
+            isOK = false;
+            System.out.println("Фатальная ошибка загрузки схемы: " + e);
+        }
+
+        public void warning(SAXParseException e)
+        {
+            System.out.println("Предупреждение загрузки схемы: " + e);
+        }
+    }
+    
 }

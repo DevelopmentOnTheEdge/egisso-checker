@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.3"
+  xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+  xmlns:prsn="urn://egisso-ru/types/prsn-info/1.0.1"
+  xmlns="urn://egisso-ru/types/assignment-fact/1.0.2"
+  targetNamespace="urn://egisso-ru/types/assignment-fact/1.0.2"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: факт назначения МСЗ
+  ****************************************************************************************************
+  -->
+
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.3" schemaLocation="egisso-basic-types-1.0.3.xsd" />
+  <xsd:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" schemaLocation="../smev3/smev-supplementary-commons-1.0.1.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/prsn-info/1.0.1" schemaLocation="prsn-info-1.0.1.xsd" />
+
+  <xsd:element name="fact" type="tFactAssignment">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        факт назначения МСЗ
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:complexType name="tFactAssignment">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: факт назначения МСЗ
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="OSZCode" type="egisso:tParticipantCode" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Код ОСЗ, осуществившего назначение
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="MSZ_receiver" type="prsn:tPersonInfo" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Получатель МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="reason_persons" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Сведения о лицах, являющихся основанием для назначения меры
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element ref="prsn:prsnInfo" minOccurs="1" maxOccurs="unbounded">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Лицо, являющееся основанием для назначения МСЗ
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LMSZID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор назначенной МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="categoryID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор локальной категории получателей МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="decision_date" type="xsd:date" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата принятия решения о назначении
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="dateStart" type="xsd:date" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата начала действия назначения
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="dateFinish" type="xsd:date" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата окончания действия назначения
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="documents" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Документы, дающие право на назначение МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="document" minOccurs="1" maxOccurs="unbounded">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Документ
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="title" type="smev:string-100" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Наименование документа
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="series" type="smev:string-50" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Серия
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="number" type="smev:string-50" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Номер
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="issue_date" type="xsd:date" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Дата выдачи
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="authority" type="smev:string-100" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Кем выдан
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="start_date" type="xsd:date" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Дата начала действия документа
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="finish_date" type="xsd:date" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Дата окончания действия документа
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="needsCriteria" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Сведения об использовании критериев нуждаемости при назначении МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="usingSign" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Признак использования критериев нуждаемости при назначении МСЗ
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="criteria" type="smev:string-500" minOccurs="0" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Перечень использованных критериев нуждаемости
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="assignment_info" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Сведения о назначении
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:choice>
+            <xsd:element name="monetary_form" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Специфические сведения о фактах назначения по денежной форме предоставления
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="amount" type="egisso:tMoney" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Сумма
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="natural_form" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Специфические сведения о фактах назначения по натуральной форме предоставления
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="amount" type="xsd:decimal" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Количество
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:choice>
+                    <xsd:element name="measuryCode" type="smev:digits-2" minOccurs="1" maxOccurs="1">
+                      <xsd:annotation>
+                        <xsd:documentation xml:lang="ru">
+                          Код единицы измерения по справочнику ЕГИССО
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="OKEICode" type="egisso:tOKEICode" minOccurs="1" maxOccurs="1">
+                      <xsd:annotation>
+                        <xsd:documentation xml:lang="ru">
+                          Код единицы измерения по ОКЕИ
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                  </xsd:choice>
+                  <xsd:element name="content" type="smev:string-200" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Содержание
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="comment" type="smev:string-200" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Комментарий
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="exemptionForm" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Специфические сведения о фактах назначения по форме предоставления «льгота»
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="amount" type="xsd:decimal" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Размер
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:choice>
+                    <xsd:element name="measuryCode" type="smev:digits-2" minOccurs="1" maxOccurs="1">
+                      <xsd:annotation>
+                        <xsd:documentation xml:lang="ru">
+                          Код единицы измерения
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="OKEICode" type="egisso:tOKEICode" minOccurs="1" maxOccurs="1">
+                      <xsd:annotation>
+                        <xsd:documentation xml:lang="ru">
+                          Код единицы измерения по ОКЕИ
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                  </xsd:choice>
+                  <xsd:element name="monetization" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Признак монетизации
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="comment" type="smev:string-200" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Комментарий
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="serviceForm" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Специфические сведения о фактах назначения по форме предоставления «услуга»
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="amount" type="xsd:decimal" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Количество
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:choice>
+                    <xsd:element name="measuryCode" type="smev:digits-2" minOccurs="1" maxOccurs="1">
+                      <xsd:annotation>
+                        <xsd:documentation xml:lang="ru">
+                          Код единицы измерения
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="OKEICode" type="egisso:tOKEICode" minOccurs="1" maxOccurs="1">
+                      <xsd:annotation>
+                        <xsd:documentation xml:lang="ru">
+                          Код единицы измерения по ОКЕИ
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                  </xsd:choice>
+                  <xsd:element name="content" type="smev:string-200" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Содержание
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="comment" type="smev:string-200" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Комментарий
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:choice>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

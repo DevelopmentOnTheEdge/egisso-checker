@@ -5,19 +5,44 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.xml.XMLConstants;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+
+import org.xml.sax.SAXException;
+
+import com.developmentontheedge.egisso.checker.EgissoChecker.XMLSchemaErrorHandler;
+
 import junit.framework.TestCase;
 
 public class EgissoCheckerTest extends TestCase
 {
     protected static final String relativePath = "./src/test/resources/";
 
-    public void testXSDLocalMSZ()
+    protected void checkXSD(String fileName) throws SAXException
     {
-        String fileName = EgissoChecker.XSD_LOCAL_MSZ;
         File file = new File(EgissoChecker.class.getClassLoader().getResource(fileName).getFile());
         assertTrue("File is missing: " + file.getAbsolutePath(), file.exists());
+
+        SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
+
+        XMLSchemaErrorHandler errorHandler = new XMLSchemaErrorHandler();
+        factory.setErrorHandler(errorHandler);
+        Schema schema = factory.newSchema( EgissoChecker.class.getClassLoader().getResource(fileName) );
+        
+        assertTrue("Ошибка при загрузке XSD схемы " + fileName, errorHandler.isOK);
+    }
+    
+    public void testXSDLocalMSZ() throws SAXException
+    {
+    	checkXSD(EgissoChecker.XSD_LOCAL_MSZ);
     }
 
+    public void testXSDAssignmentFact() throws SAXException
+    {
+    	checkXSD(EgissoChecker.XSD_ASSIGNMENT_FACT);
+    }
+    
     public void testRuMessageBundle()
     {
         Locale ru = new Locale("ru");
