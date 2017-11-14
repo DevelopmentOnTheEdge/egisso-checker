@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/DevelopmentOnTheEdge/egisso-checker.svg?branch=master)](https://travis-ci.org/DevelopmentOnTheEdge/egisso-checker)
+
 Чекер предназначен для проверки файлов с ЛКМСЗ (локальный классификатор мер социальной защиты) для первичной загрузки в ЕГИССО.
 
 ### Установка и запуск программы
