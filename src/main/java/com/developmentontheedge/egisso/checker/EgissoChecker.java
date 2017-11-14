@@ -1,7 +1,11 @@
 package com.developmentontheedge.egisso.checker;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collections;
@@ -44,7 +48,7 @@ public class EgissoChecker
         try
         {
             EgissoChecker checker = new EgissoChecker();
-            checker.checkLocalMSZ(args[0]);
+            checker.check(args[0]);
         }
         catch(Throwable t)
         {
@@ -57,7 +61,7 @@ public class EgissoChecker
 
     private static long startTime;
 
-    protected String createInfo(File fileToCheck, File fileProtocol, File fileErrors)
+    protected String createInfo(File fileToCheck, File fileProtocol, File fileErrors, String schemeName)
     {
         StringBuilder info = new StringBuilder();
 
@@ -65,12 +69,59 @@ public class EgissoChecker
             .append("\r\nПроверяемый файл:  " + fileToCheck.getName()) // AbsolutePath())
             .append("\r\nФайл протокола:    " + fileProtocol.getName())
             .append("\r\nФайл с ошибками:   " + fileErrors.getName())
-            .append("\r\nXSD схема для проверки локального классификатора услуг (ЛКМСЗ): " + XSD_LOCAL_MSZ);
+            .append("\r\nXSD схема для проверки: " + schemeName);
 
         return info.toString();
     }
 
-    public void checkLocalMSZ(String fileName) throws SAXException, IOException
+    protected String defineScheme(File fileToCheck) throws Exception 
+    {
+    	InputStream is = new FileInputStream(fileToCheck);
+    	
+    	BufferedReader buf = new BufferedReader(new InputStreamReader(is)); 
+    	
+    	String line;
+    	String scheme = null;
+    	int start, end;
+    	String searchedStr = "urn://egisso-ru/msg/";
+    	for(int i=0; i<20; i++)
+    	{
+    		line = buf.readLine(); 
+    		if( line == null )
+    			break;
+    		
+    		start = line.indexOf(searchedStr);
+    		if( start > 0 )
+    		{
+    			end = line.indexOf('"', start);
+    			if( end > 0 )
+    			{
+    				scheme = line.substring(start, end);
+    				break;
+    			}
+    		}
+    	}
+    	buf.close();
+    	
+    	if( scheme != null )
+    	{
+    		if( scheme.equals("urn://egisso-ru/msg/10.05.I/1.0.3") )
+    			return XSD_LOCAL_MSZ;
+
+    		if( scheme.equals("urn://egisso-ru/msg/10.06.S/1.0.1") )
+    			return XSD_ASSIGNMENT_FACT;
+    	}
+    	
+    	System.out.println("\r\nНеправильный формат файла - не найдена подходящая схема для проверки.");
+        System.out.println("Файл должен содержать подстроку: ");
+        System.out.println(" - 'urn://egisso-ru/msg/10.05.I/1.0.3' - для файла с локальным классификатором услуг (ЛКМСЗ) или");
+        System.out.println(" - 'urn://egisso-ru/msg/10.06.S/1.0.1' - для файла с фактами назначений.");
+                
+        System.exit(-1);
+        return null;
+    }
+
+    public void check(String fileName) throws Exception
     {
         File fileToCheck = new File(fileName);
         if( !fileToCheck.exists() )
@@ -79,10 +130,12 @@ public class EgissoChecker
             System.exit(-1);
         }
 
+        String schemeName = defineScheme(fileToCheck);        
+        
         File fileProtocol = new File(fileName + ".prt");
         File fileErrors   = new File(fileName + ".err");
 
-        String info = createInfo(fileToCheck, fileProtocol, fileErrors);
+        String info = createInfo(fileToCheck, fileProtocol, fileErrors, schemeName);
         System.out.println(info);
 
         PrintWriter protocol = new PrintWriter(fileProtocol);
@@ -94,7 +147,7 @@ public class EgissoChecker
         startTime = System.currentTimeMillis();
         System.out.println("\r\nНачинаем проверку ...");
 
-        Validator validator = createValidator(XSD_LOCAL_MSZ, errors);
+        Validator validator = createValidator(schemeName, errors);
         StreamSource xmlStream = new StreamSource(fileToCheck);
 
         try

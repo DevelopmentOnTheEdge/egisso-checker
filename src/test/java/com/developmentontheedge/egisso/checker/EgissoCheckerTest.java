@@ -52,12 +52,20 @@ public class EgissoCheckerTest extends TestCase
         assertEquals( "cvc-complex-type.2.4.d: Неверное содержимое, начиная с элемента ''{0}''. Не ожидалось никакого дочернего элемента в данной позиции.", bundle.getString("cvc-complex-type.2.4.d") );
     }
 
-    public void testExample() throws Exception
+    public void testLKMSZ() throws Exception
     {
         String fileName = "10.05.I-1.0.0.sample.1.xml"; 
 
         EgissoChecker checker = new EgissoChecker();
-        checker.checkLocalMSZ(relativePath + fileName);
+        checker.check(relativePath + fileName);
     }
 
+    public void testAssignmentFact() throws Exception
+    {
+        String fileName = "10.06.I-1.0.1.test.xml"; 
+
+        EgissoChecker checker = new EgissoChecker();
+        checker.check(relativePath + fileName);
+    }
+    
 }
