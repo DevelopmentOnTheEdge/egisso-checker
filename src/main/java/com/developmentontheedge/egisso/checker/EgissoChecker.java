@@ -3,7 +3,6 @@ package com.developmentontheedge.egisso.checker;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -30,7 +29,7 @@ import org.xml.sax.SAXParseException;
 
 public class EgissoChecker
 {
-    public static final String VERSION             = "0.2.0";
+    public static final String VERSION             = "0.1.0";
     public static final String XSD_LOCAL_MSZ       = "10.05.I-1.0.3.xsd";
     public static final String XSD_ASSIGNMENT_FACT = "10.06.S-1.0.1.xsd";
     public static final String USAGE 		       = "java -jar egisso-checker" + VERSION + ".jar файл_для_проверки";
@@ -39,21 +38,44 @@ public class EgissoChecker
     {
         Locale.setDefault(new Locale("ru"));
 
-        if( args.length != 1 )
-        {
-            System.out.println("\r\nНеправильное число аргументов, правильно: \r\n" + USAGE);
-            System.exit(-1);
-    	}
+        System.out.println("Чекер для ЕГИССО, версия: " + VERSION);
 
-        try
+        // TODO check dir in arguments
+        String[] fileNames;
+        if( args.length > 0 )
         {
-            EgissoChecker checker = new EgissoChecker();
-            checker.check(args[0]);
+            fileNames = new String[ args.length ];
+            System.arraycopy( args, 0, fileNames, 0, args.length );
         }
-        catch(Throwable t)
+        else
         {
-            System.out.println("Непредвиденная ошибка: " + t);
-            t.printStackTrace();
+            File currentDir = new java.io.File( "." );
+            fileNames = currentDir.list();
+        }
+
+        for( String fileName : fileNames )
+        {
+            if( fileName.toLowerCase().equals( "egisso-checker" + VERSION + ".jar" ) )
+            {
+                continue;
+            }
+
+            if( !fileName.toLowerCase().endsWith( ".xml" ) )
+            {
+                System.out.println("\r\nПропускаем не xml файл " + fileName );
+                continue;
+            }
+
+            try
+            {
+                EgissoChecker checker = new EgissoChecker();
+                checker.check( fileName );
+            }
+            catch(Throwable t)
+            {
+                System.out.println("Непредвиденная ошибка: " + t);
+                t.printStackTrace();
+            }
         }
     }
 
@@ -65,7 +87,7 @@ public class EgissoChecker
     {
         StringBuilder info = new StringBuilder();
 
-        info.append("Чекер для ЕГИССО, версия: " + VERSION)
+        info.append("")
             .append("\r\nПроверяемый файл:  " + fileToCheck.getName()) // AbsolutePath())
             .append("\r\nФайл протокола:    " + fileProtocol.getName())
             .append("\r\nФайл с ошибками:   " + fileErrors.getName())
@@ -76,48 +98,47 @@ public class EgissoChecker
 
     protected String defineScheme(File fileToCheck) throws Exception 
     {
-    	InputStream is = new FileInputStream(fileToCheck);
-    	
-    	BufferedReader buf = new BufferedReader(new InputStreamReader(is)); 
-    	
-    	String line;
-    	String scheme = null;
-    	int start, end;
-    	String searchedStr = "urn://egisso-ru/msg/";
-    	for(int i=0; i<20; i++)
-    	{
-    		line = buf.readLine(); 
-    		if( line == null )
-    			break;
-    		
-    		start = line.indexOf(searchedStr);
-    		if( start > 0 )
-    		{
-    			end = line.indexOf('"', start);
-    			if( end > 0 )
-    			{
-    				scheme = line.substring(start, end);
-    				break;
-    			}
-    		}
-    	}
-    	buf.close();
-    	
-    	if( scheme != null )
-    	{
-    		if( scheme.equals("urn://egisso-ru/msg/10.05.I/1.0.3") )
-    			return XSD_LOCAL_MSZ;
+        InputStream is = new FileInputStream(fileToCheck);
 
-    		if( scheme.equals("urn://egisso-ru/msg/10.06.S/1.0.1") )
-    			return XSD_ASSIGNMENT_FACT;
-    	}
-    	
-    	System.out.println("\r\nНеправильный формат файла - не найдена подходящая схема для проверки.");
+        BufferedReader buf = new BufferedReader(new InputStreamReader(is)); 
+
+        String line;
+        String scheme = null;
+        int start, end;
+        String searchedStr = "urn://egisso-ru/msg/";
+        for(int i=0; i<20; i++)
+        {
+            line = buf.readLine(); 
+            if( line == null )
+                break;
+
+            start = line.indexOf(searchedStr);
+            if( start > 0 )
+            {
+                end = line.indexOf('"', start);
+                if( end > 0 )
+                {
+                    scheme = line.substring(start, end);
+                    break;
+                }
+            }
+        }
+        buf.close();
+
+        if( scheme != null )
+        {
+            if( scheme.equals("urn://egisso-ru/msg/10.05.I/1.0.3") )
+                return XSD_LOCAL_MSZ;
+
+            if( scheme.equals("urn://egisso-ru/msg/10.06.S/1.0.1") )
+                return XSD_ASSIGNMENT_FACT;
+        }
+
+        System.out.println("\r\nНеправильный формат файла - не найдена подходящая схема для проверки.");
         System.out.println("Файл должен содержать подстроку: ");
         System.out.println(" - 'urn://egisso-ru/msg/10.05.I/1.0.3' - для файла с локальным классификатором услуг (ЛКМСЗ) или");
         System.out.println(" - 'urn://egisso-ru/msg/10.06.S/1.0.1' - для файла с фактами назначений.");
-                
-        System.exit(-1);
+
         return null;
     }
 
@@ -127,11 +148,13 @@ public class EgissoChecker
         if( !fileToCheck.exists() )
         {
             System.out.println("\r\nНе найден файл для проверки: " + fileToCheck.getAbsolutePath());
-            System.exit(-1);
+            return;
         }
 
-        String schemeName = defineScheme(fileToCheck);        
-        
+        String schemeName = defineScheme(fileToCheck);
+        if( schemeName == null )
+            return;
+
         File fileProtocol = new File(fileName + ".prt");
         File fileErrors   = new File(fileName + ".err");
 
@@ -156,7 +179,7 @@ public class EgissoChecker
         }
         catch(SAXParseException e)
         {
-        	logError(errors, e);
+            logError(errors, e);
         }
 
         errors.close();
@@ -279,13 +302,13 @@ public class EgissoChecker
 
         protected void printProtocol(PrintWriter protocol)
         {
-        	if( isOK )
-        	{
+            if( isOK )
+            {
                 protocol.println("\r\nОшибок не обнаружено.");
                 return;
-        	}
-            
-        	protocol.println("\r\nСтатистика по ошибкам (число - описание ошибки):");
+            }
+
+            protocol.println("\r\nСтатистика по ошибкам (число - описание ошибки):");
 
             // сортируем ошибки по числу, вначале - самые частые
             Map<String, AtomicInteger> map = sortByValue(errorsMap);
@@ -322,5 +345,5 @@ public class EgissoChecker
             System.out.println("Предупреждение загрузки схемы: " + e);
         }
     }
-    
+
 }
