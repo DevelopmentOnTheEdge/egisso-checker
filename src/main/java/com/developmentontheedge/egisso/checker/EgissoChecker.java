@@ -29,7 +29,7 @@ import org.xml.sax.SAXParseException;
 
 public class EgissoChecker
 {
-    public static final String VERSION             = "0.1.0";
+    public static final String VERSION             = "0.1.1";
     public static final String XSD_LOCAL_MSZ       = "10.05.I-1.0.3.xsd";
     public static final String XSD_ASSIGNMENT_FACT = "10.06.S-1.0.1.xsd";
     public static final String USAGE 		       = "java -jar egisso-checker" + VERSION + ".jar файл_для_проверки";

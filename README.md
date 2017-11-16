@@ -5,17 +5,17 @@
 ### Установка и запуск программы
 Для установки чекера необходимо скачать этот jar файл:
 
-[egisso-checker-0.1.0.jar](https://github.com/DevelopmentOnTheEdge/egisso-checker/releases/download/0.1.0/egisso-checker-0.1.0.jar)
+[egisso-checker-0.1.1.jar](https://github.com/DevelopmentOnTheEdge/egisso-checker/releases/download/0.1.1/egisso-checker-0.1.1.jar)
 
 Для запуска чекера на компьютере должна быть установлена Java (версия 8).
 
 Для проверки .xml файла нужно выполнить команду:
 
-`java -jar egisso-checker-0.1.0.jar файл_для_проверки.xml`
+`java -jar egisso-checker-0.1.1.jar файл_для_проверки.xml`
 
 или
 
-`java -jar egisso-checker-0.1.0.jar` 
+`java -jar egisso-checker-0.1.1.jar` 
 
 для проверки всех файлов в текущей директории.
 
@@ -119,7 +119,7 @@
 
 * test.xml.prt - протокол проверки
 ````
-Чекер для ЕГИССО, версия: 0.1.0
+Чекер для ЕГИССО, версия: 0.1.1
 Проверяемый файл:  test.xml
 Файл протокола:    test.xml.prt
 Файл с ошибками:   test.xml.err
