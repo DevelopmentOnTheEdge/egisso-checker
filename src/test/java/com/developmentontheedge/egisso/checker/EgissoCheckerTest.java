@@ -62,7 +62,7 @@ public class EgissoCheckerTest extends TestCase
 
     public void testAssignmentFact() throws Exception
     {
-        String fileName = "10.06.I-1.0.1.test.xml"; 
+        String fileName = "10.06.S-1.0.0.test.xml"; 
 
         EgissoChecker checker = new EgissoChecker();
         checker.check(relativePath + fileName);

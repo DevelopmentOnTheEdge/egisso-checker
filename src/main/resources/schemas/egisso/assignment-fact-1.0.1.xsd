@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsd:schema
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:egisso="urn://egisso-ru/types/basic/1.0.3"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
   xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
   xmlns:prsn="urn://egisso-ru/types/prsn-info/1.0.1"
-  xmlns="urn://egisso-ru/types/assignment-fact/1.0.2"
-  targetNamespace="urn://egisso-ru/types/assignment-fact/1.0.2"
+  xmlns="urn://egisso-ru/types/assignment-fact/1.0.1"
+  targetNamespace="urn://egisso-ru/types/assignment-fact/1.0.1"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
 >
@@ -16,7 +16,7 @@
   ****************************************************************************************************
   -->
 
-  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.3" schemaLocation="egisso-basic-types-1.0.3.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
   <xsd:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" schemaLocation="../smev3/smev-supplementary-commons-1.0.1.xsd" />
   <xsd:import namespace="urn://egisso-ru/types/prsn-info/1.0.1" schemaLocation="prsn-info-1.0.1.xsd" />
 
@@ -35,6 +35,13 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element name="ID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор факта назначения
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
       <xsd:element name="OSZCode" type="egisso:tParticipantCode" minOccurs="1" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation xml:lang="ru">

@@ -3,9 +3,9 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
   xmlns:p-result="urn://egisso-ru/types/package-result/1.0.2"
-  xmlns:r-result="urn://egisso-ru/types/record-result/1.0.3"
-  xmlns="urn://egisso-ru/types/package-protocol/1.0.3"
-  targetNamespace="urn://egisso-ru/types/package-protocol/1.0.3"
+  xmlns:r-result="urn://egisso-ru/types/record-result/1.0.2"
+  xmlns="urn://egisso-ru/types/package-protocol/1.0.2"
+  targetNamespace="urn://egisso-ru/types/package-protocol/1.0.2"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
 >
@@ -18,7 +18,7 @@
 
   <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
   <xsd:import namespace="urn://egisso-ru/types/package-result/1.0.2" schemaLocation="package-result-1.0.2.xsd" />
-  <xsd:import namespace="urn://egisso-ru/types/record-result/1.0.3" schemaLocation="record-result-1.0.3.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/record-result/1.0.2" schemaLocation="record-result-1.0.2.xsd" />
 
   <xsd:element name="protocol" type="tPackageProtocol">
     <xsd:annotation>

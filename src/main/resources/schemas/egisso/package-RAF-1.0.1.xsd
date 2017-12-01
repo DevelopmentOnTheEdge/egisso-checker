@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsd:schema
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:egisso="urn://egisso-ru/types/basic/1.0.3"
-  xmlns:af="urn://egisso-ru/types/assignment-fact/1.0.2"
-  xmlns="urn://egisso-ru/types/package-RAF/1.0.2"
-  targetNamespace="urn://egisso-ru/types/package-RAF/1.0.2"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
+  xmlns:af="urn://egisso-ru/types/assignment-fact/1.0.1"
+  xmlns="urn://egisso-ru/types/package-RAF/1.0.1"
+  targetNamespace="urn://egisso-ru/types/package-RAF/1.0.1"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
 >
 
-  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.3" schemaLocation="egisso-basic-types-1.0.3.xsd" />
-  <xsd:import namespace="urn://egisso-ru/types/assignment-fact/1.0.2" schemaLocation="assignment-fact-1.0.2.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/assignment-fact/1.0.1" schemaLocation="assignment-fact-1.0.1.xsd" />
 
   <!--
   ****************************************************************************************************
@@ -83,7 +83,7 @@
               </xsd:documentation>
             </xsd:annotation>
           </xsd:element>
-          <xsd:element name="previosID" type="egisso:tFactId" minOccurs="0" maxOccurs="1">
+          <xsd:element name="previosID" type="egisso:UUID" minOccurs="0" maxOccurs="1">
             <xsd:annotation>
               <xsd:documentation xml:lang="ru">
                 Идентификатор предыдущей модифицированной записи
@@ -102,7 +102,14 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
-      <xsd:element name="assignmentFactID" type="egisso:tFactId" minOccurs="1" maxOccurs="1">
+      <xsd:element name="ID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор факта прекращения
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="assignmentFactID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation xml:lang="ru">
             Идентификатор факта назначения, действие которого прекращается

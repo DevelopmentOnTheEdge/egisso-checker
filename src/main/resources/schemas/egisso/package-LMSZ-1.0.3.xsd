@@ -2,15 +2,15 @@
 <xsd:schema
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
-  xmlns:LMSZ="urn://egisso-ru/types/local-MSZ/1.0.2"
-  xmlns="urn://egisso-ru/types/package-LMSZ/1.0.2"
-  targetNamespace="urn://egisso-ru/types/package-LMSZ/1.0.2"
+  xmlns:LMSZ="urn://egisso-ru/types/local-MSZ/1.0.3"
+  xmlns="urn://egisso-ru/types/package-LMSZ/1.0.3"
+  targetNamespace="urn://egisso-ru/types/package-LMSZ/1.0.3"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
 >
 
   <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
-  <xsd:import namespace="urn://egisso-ru/types/local-MSZ/1.0.2" schemaLocation="local-MSZ-1.0.2.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/local-MSZ/1.0.3" schemaLocation="local-MSZ-1.0.3.xsd" />
 
   <!--
   ****************************************************************************************************

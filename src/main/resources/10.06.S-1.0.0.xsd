@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsd:schema
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:pac="urn://egisso-ru/types/package-RAF/1.0.2"
-  xmlns="urn://egisso-ru/msg/10.06.S/1.0.1"
-  targetNamespace="urn://egisso-ru/msg/10.06.S/1.0.1"
+  xmlns:pac="urn://egisso-ru/types/package-RAF/1.0.1"
+  xmlns="urn://egisso-ru/msg/10.06.S/1.0.0"
+  targetNamespace="urn://egisso-ru/msg/10.06.S/1.0.0"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
 >
@@ -14,7 +14,7 @@
   ****************************************************************************************************
   -->
 
-  <xsd:import namespace="urn://egisso-ru/types/package-RAF/1.0.2" schemaLocation="schemas/egisso/package-RAF-1.0.2.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/package-RAF/1.0.1" schemaLocation="./schemas/egisso/package-RAF-1.0.1.xsd" />
 
   <!--==========================================  Корневой элемент данных  ==========================================-->
   <xsd:element name="data">

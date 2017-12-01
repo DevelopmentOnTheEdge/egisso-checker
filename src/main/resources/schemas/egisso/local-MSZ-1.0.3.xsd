@@ -3,8 +3,8 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
   xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
-  xmlns="urn://egisso-ru/types/local-MSZ/1.0.2"
-  targetNamespace="urn://egisso-ru/types/local-MSZ/1.0.2"
+  xmlns="urn://egisso-ru/types/local-MSZ/1.0.3"
+  targetNamespace="urn://egisso-ru/types/local-MSZ/1.0.3"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
 >
@@ -292,19 +292,19 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="KBKCode" minOccurs="1" maxOccurs="1">
-        <xsd:annotation>
-          <xsd:documentation xml:lang="ru">
-            КБК
-          </xsd:documentation>
-        </xsd:annotation>
-        <xsd:simpleType>
-          <xsd:restriction base="xsd:string">
-            <xsd:pattern value="\d{20}" />
-          </xsd:restriction>
-        </xsd:simpleType>
-      </xsd:element>
+        <xsd:element name="KBKCode" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                    КБК
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="\S{20}" />
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:element>
     </xsd:sequence>
   </xsd:complexType>
-  
+
 </xsd:schema>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <request
     xmlns="urn://egisso-ru/msg/10.05.I/1.0.3"
-    xmlns:pac="urn://egisso-ru/types/package-LMSZ/1.0.2"
-    xmlns:LMSZ="urn://egisso-ru/types/local-MSZ/1.0.2"
+    xmlns:pac="urn://egisso-ru/types/package-LMSZ/1.0.3"
+    xmlns:LMSZ="urn://egisso-ru/types/local-MSZ/1.0.3"
 >
   <pac:package>
     <pac:packageID>21f69160-97eb-4baf-9616-e7f6e9a35fb2</pac:packageID>

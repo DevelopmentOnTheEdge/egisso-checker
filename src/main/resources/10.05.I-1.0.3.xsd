@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xsd:schema
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:pac="urn://egisso-ru/types/package-LMSZ/1.0.2"
-  xmlns:protocol="urn://egisso-ru/types/package-protocol/1.0.3"
+  xmlns:pac="urn://egisso-ru/types/package-LMSZ/1.0.3"
+  xmlns:protocol="urn://egisso-ru/types/package-protocol/1.0.2"
   xmlns="urn://egisso-ru/msg/10.05.I/1.0.3"
   targetNamespace="urn://egisso-ru/msg/10.05.I/1.0.3"
   elementFormDefault="qualified"
@@ -15,8 +15,8 @@
   ****************************************************************************************************
   -->
 
-  <xsd:import namespace="urn://egisso-ru/types/package-LMSZ/1.0.2" schemaLocation="./schemas/egisso/package-LMSZ-1.0.2.xsd" />
-  <xsd:import namespace="urn://egisso-ru/types/package-protocol/1.0.3" schemaLocation="schemas/egisso/package-protocol-1.0.3.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/package-LMSZ/1.0.3" schemaLocation="./schemas/egisso/package-LMSZ-1.0.3.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/package-protocol/1.0.2" schemaLocation="./schemas/egisso/package-protocol-1.0.2.xsd" />
 
   <!--==========================================  Элементы "Сообщение-запрос" и "Сообщение-ответ"  ==========================================-->
   <xsd:element name="request">
