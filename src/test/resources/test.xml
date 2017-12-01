@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<em:request xmlns:etplmsz="urn://egisso-ru/types/package-LMSZ/1.0.2"
-            xmlns:etlmsz="urn://egisso-ru/types/local-MSZ/1.0.2"
+<em:request xmlns:etplmsz="urn://egisso-ru/types/package-LMSZ/1.0.3"
+            xmlns:etlmsz="urn://egisso-ru/types/local-MSZ/1.0.3"
             xmlns:em="urn://egisso-ru/msg/10.05.I/1.0.3">
     <etplmsz:package>
         <etplmsz:packageID>43dfEcaf-d20D-E2eE-aaBa-A3eAd4f9a335</etplmsz:packageID>
