@@ -2,8 +2,10 @@ package com.developmentontheedge.egisso.checker;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.XMLConstants;
 import javax.xml.validation.Schema;
@@ -29,20 +31,21 @@ public class EgissoCheckerTest extends TestCase
         XMLSchemaErrorHandler errorHandler = new XMLSchemaErrorHandler();
         factory.setErrorHandler(errorHandler);
         Schema schema = factory.newSchema( EgissoChecker.class.getClassLoader().getResource(fileName) );
-        
+
+        assertNotNull( schema );
         assertTrue("Ошибка при загрузке XSD схемы " + fileName, errorHandler.isOK);
     }
-    
+
     public void testXSDLocalMSZ() throws SAXException
     {
-    	checkXSD(EgissoChecker.XSD_LOCAL_MSZ);
+        checkXSD(EgissoChecker.Scheme.XSD_LOCAL_MSZ.xsd);
     }
 
     public void testXSDAssignmentFact() throws SAXException
     {
-    	checkXSD(EgissoChecker.XSD_ASSIGNMENT_FACT);
+        checkXSD(EgissoChecker.Scheme.XSD_ASSIGNMENT_FACT.xsd);
     }
-    
+
     public void testRuMessageBundle()
     {
         Locale ru = new Locale("ru");
@@ -54,18 +57,47 @@ public class EgissoCheckerTest extends TestCase
 
     public void testLKMSZ() throws Exception
     {
-        String fileName = "10.05.I-1.0.0.sample.1.xml"; 
+        String fileName = "10.05.I-1.0.0.sample.1.xml";
 
         EgissoChecker checker = new EgissoChecker();
-        checker.check(relativePath + fileName);
+        assertNull( checker.checkFile(relativePath + fileName, false) );
     }
 
     public void testAssignmentFact() throws Exception
     {
-        String fileName = "10.06.S-1.0.0.test.xml"; 
+        String fileName = "10.06.S-1.0.0.test.xml";
 
         EgissoChecker checker = new EgissoChecker();
-        checker.check(relativePath + fileName);
+        assertNull( checker.checkFile(relativePath + fileName, false) );
     }
-    
+
+    public void testErrors() throws Exception
+    {
+        String fileName = "10.06.S-1.0.0.testErrors.xml";
+
+        EgissoChecker checker = new EgissoChecker();
+        String error = "cvc-complex-type.2.4.a: Неверное содержимое, начиная с элемента 'amount'. Содержимое должно соответствовать '{\"urn://egisso-ru/types/assignment-fact/1.0.1\":amount}'.";
+        Map<String, AtomicInteger> errors = checker.checkFile(relativePath + fileName, false);
+        assertEquals( 1, errors.size() );
+        assertEquals( error, errors.keySet().iterator().next() );
+        assertEquals( 1, errors.values().iterator().next().get() );
+
+        errors = checker.check(new String[] { relativePath + fileName }, false);
+        assertEquals( 1, errors.size() );
+        assertEquals( error, errors.keySet().iterator().next() );
+        assertEquals( 1, errors.values().iterator().next().get() );
+    }
+
+    public void testSomeFiles() throws Exception
+    {
+        String[] fileNames = { relativePath + "10.06.S-1.0.0.testErrors.xml", relativePath + "10.06.S-1.0.0.test.xml" };
+
+        EgissoChecker checker = new EgissoChecker();
+        String error = "cvc-complex-type.2.4.a: Неверное содержимое, начиная с элемента 'amount'. Содержимое должно соответствовать '{\"urn://egisso-ru/types/assignment-fact/1.0.1\":amount}'.";
+        Map<String, AtomicInteger> errors = checker.check(fileNames, false);
+        assertEquals( 1, errors.size() );
+        assertEquals( error, errors.keySet().iterator().next() );
+        assertEquals( 1, errors.values().iterator().next().get() );
+    }
+
 }

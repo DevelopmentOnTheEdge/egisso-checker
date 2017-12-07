@@ -3,6 +3,7 @@ package com.developmentontheedge.egisso.checker;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -10,11 +11,13 @@ import java.io.StringWriter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.XMLConstants;
@@ -29,30 +32,48 @@ import org.xml.sax.SAXParseException;
 
 public class EgissoChecker
 {
-    public static final String VERSION             = "0.1.1";
-    public static final String XSD_LOCAL_MSZ       = "10.05.I-1.0.3.xsd";
-    public static final String XSD_ASSIGNMENT_FACT = "10.06.S-1.0.0.xsd";
-    public static final String USAGE 		       = "java -jar egisso-checker" + VERSION + ".jar файл_для_проверки";
+    private static final String VERSION = "0.1.2";
 
-    public static void main(String[] args)
+    public enum Scheme
+    {
+        XSD_LOCAL_MSZ( "urn://egisso-ru/msg/10.05.I/1.0.3", "10.05.I-1.0.3.xsd" ),
+        XSD_ASSIGNMENT_FACT( "urn://egisso-ru/msg/10.06.S/1.0.0", "10.06.S-1.0.0.xsd" );
+
+        final String urn;
+        final String xsd;
+
+        Scheme(String urn, String xsd)
+        {
+            this.urn = urn;
+            this.xsd = xsd;
+        }
+    }
+
+    public static void main(String[] args) throws Exception
+    {
+        // TODO check dir in arguments
+        String[] fileNames;
+        if( args.length > 0 )
+        {
+            fileNames = args;
+        }
+        else
+        {
+            fileNames = new java.io.File( "." ).list();
+        }
+
+        EgissoChecker checker = new EgissoChecker();
+        checker.check( fileNames, true );
+    }
+
+    public Map<String, AtomicInteger> check(String[] fileNames, boolean createFiles) throws Exception
     {
         Locale.setDefault(new Locale("ru"));
 
         System.out.println("Чекер для ЕГИССО, версия: " + VERSION);
 
-        // TODO check dir in arguments
-        String[] fileNames;
-        if( args.length > 0 )
-        {
-            fileNames = new String[ args.length ];
-            System.arraycopy( args, 0, fileNames, 0, args.length );
-        }
-        else
-        {
-            File currentDir = new java.io.File( "." );
-            fileNames = currentDir.list();
-        }
-
+        Set<Map<String, AtomicInteger>> totalErrors = new HashSet<>();
+        int counter = 0;
         for( String fileName : fileNames )
         {
             if( fileName.toLowerCase().equals( "egisso-checker" + VERSION + ".jar" ) )
@@ -66,10 +87,12 @@ public class EgissoChecker
                 continue;
             }
 
+            counter++;
             try
             {
-                EgissoChecker checker = new EgissoChecker();
-                checker.check( fileName );
+                Map<String, AtomicInteger> errorsMap = checkFile( fileName, true );
+                if( errorsMap != null && !errorsMap.isEmpty())
+                    totalErrors.add(errorsMap);
             }
             catch(Throwable t)
             {
@@ -77,122 +100,124 @@ public class EgissoChecker
                 t.printStackTrace();
             }
         }
+
+        if( counter > 1 ) // create summarized protocol
+        {
+            Map<String, AtomicInteger> errorsMap = sumByKey(totalErrors);
+            CheckerErrorHandler errorHandler = new EgissoChecker().new CheckerErrorHandler( errorsMap );
+            PrintWriter protocol = new PrintWriter( new File( "protocol.txt" ) );
+            errorHandler.printProtocol(protocol);
+            protocol.close();
+
+            return errorsMap;
+        }
+        else if( totalErrors.size() == 1 )
+        {
+            return totalErrors.iterator().next();
+        }
+
+        return null;
     }
 
-    // ////////////////////////////////////////////////////////////////////////
-
-    private static long startTime;
-
-    protected String createInfo(File fileToCheck, File fileProtocol, File fileErrors, String schemeName)
+    protected String createInfo(File fileToCheck, File fileProtocol, File fileErrors, Scheme scheme)
     {
         StringBuilder info = new StringBuilder();
 
         info.append("")
             .append("\r\nПроверяемый файл:  " + fileToCheck.getName()) // AbsolutePath())
-            .append("\r\nФайл протокола:    " + fileProtocol.getName())
-            .append("\r\nФайл с ошибками:   " + fileErrors.getName())
-            .append("\r\nXSD схема для проверки: " + schemeName);
+            .append("\r\nФайл протокола:    " + ( fileProtocol == null ? "не создается" : fileProtocol.getName() ) )
+            .append("\r\nФайл с ошибками:   " + ( fileErrors == null ? " не создается" : fileErrors.getName() ) )
+            .append("\r\nXSD схема для проверки: " + scheme.xsd);
 
         return info.toString();
     }
 
-    protected String defineScheme(File fileToCheck) throws Exception 
+    protected Scheme defineScheme(File fileToCheck) throws Exception 
     {
-        InputStream is = new FileInputStream(fileToCheck);
-
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is)); 
-
-        String line;
-        String scheme = null;
-        int start, end;
-        String searchedStr = "urn://egisso-ru/msg/";
-        for(int i=0; i<20; i++)
+        InputStream is = null;
+        BufferedReader buf = null;
+        try
         {
-            line = buf.readLine(); 
-            if( line == null )
-                break;
+            is = new FileInputStream(fileToCheck);
+            buf = new BufferedReader(new InputStreamReader(is)); 
 
-            start = line.indexOf(searchedStr);
-            if( start > 0 )
+            for(int i=0; i<20; i++)
             {
-                end = line.indexOf('"', start);
-                if( end > 0 )
-                {
-                    scheme = line.substring(start, end);
+                String line = buf.readLine(); 
+                if( line == null )
                     break;
-                }
+
+                if( line.contains( Scheme.XSD_LOCAL_MSZ.urn ) )
+                    return Scheme.XSD_LOCAL_MSZ;
+                else if( line.contains( Scheme.XSD_ASSIGNMENT_FACT.urn ) )
+                    return Scheme.XSD_ASSIGNMENT_FACT;
             }
         }
-        buf.close();
-
-        if( scheme != null )
+        finally
         {
-            if( scheme.equals("urn://egisso-ru/msg/10.05.I/1.0.3") )
-                return XSD_LOCAL_MSZ;
-
-            if( scheme.equals("urn://egisso-ru/msg/10.06.S/1.0.1") )
-                return XSD_ASSIGNMENT_FACT;
+            if( buf != null )
+                buf.close();
+            if( is != null )
+                is.close();
         }
 
         System.out.println("\r\nНеправильный формат файла - не найдена подходящая схема для проверки.");
         System.out.println("Файл должен содержать подстроку: ");
         System.out.println(" - 'urn://egisso-ru/msg/10.05.I/1.0.3' - для файла с локальным классификатором услуг (ЛКМСЗ) или");
-        System.out.println(" - 'urn://egisso-ru/msg/10.06.S/1.0.1' - для файла с фактами назначений.");
+        System.out.println(" - 'urn://egisso-ru/msg/10.06.S/1.0.0' - для файла с фактами назначений.");
 
         return null;
     }
 
-    public void check(String fileName) throws Exception
+    public Map<String, AtomicInteger> checkFile(String fileName, boolean createFiles) throws Exception
     {
         File fileToCheck = new File(fileName);
         if( !fileToCheck.exists() )
         {
-            System.out.println("\r\nНе найден файл для проверки: " + fileToCheck.getAbsolutePath());
-            return;
+            String error = "\r\nНе найден файл для проверки: " + fileToCheck.getAbsolutePath();
+            System.out.println(error);
+            return null;
         }
 
-        String schemeName = defineScheme(fileToCheck);
-        if( schemeName == null )
-            return;
+        Scheme scheme = defineScheme(fileToCheck);
+        if( scheme == null )
+        {
+            String error = "\r\nНе найдена схема для проверки файла: " + fileToCheck.getAbsolutePath();
+            System.out.println(error);
+            return null;
+        }
 
-        File fileProtocol = new File(fileName + ".prt");
-        File fileErrors   = new File(fileName + ".err");
-
-        String info = createInfo(fileToCheck, fileProtocol, fileErrors, schemeName);
+        File fileProtocol = null;
+        File fileErrors   = null;
+        if( createFiles )
+        {
+            fileProtocol = new File(fileName + ".prt");
+            fileErrors   = new File(fileName + ".err");
+        }
+        String info = createInfo(fileToCheck, fileProtocol, fileErrors, scheme);
         System.out.println(info);
 
-        PrintWriter protocol = new PrintWriter(fileProtocol);
-        protocol.println(info);
-
-        PrintWriter errors = new PrintWriter(fileErrors);
-        errors.println("Строка\tПозиция\tКод ошибки\tОписание");
-
-        startTime = System.currentTimeMillis();
         System.out.println("\r\nНачинаем проверку ...");
 
-        Validator validator = createValidator(schemeName, errors);
+        Validator validator = createValidator(scheme.xsd, fileErrors);
         StreamSource xmlStream = new StreamSource(fileToCheck);
 
-        try
-        {
-            validator.validate(xmlStream);
-        }
-        catch(SAXParseException e)
-        {
-            logError(errors, e);
-        }
-
-        errors.close();
+        validator.validate(xmlStream);
 
         CheckerErrorHandler errorHandler = (CheckerErrorHandler)validator.getErrorHandler();
-        errorHandler.printProtocol(protocol);
-        protocol.close();
 
-        System.out.println("\r\nПроверка завершена (" + (System.currentTimeMillis() - startTime) + " ms)");
+        if( fileProtocol  != null )
+        {
+            PrintWriter protocol = new PrintWriter(fileProtocol);
+            protocol.println(info);
+            errorHandler.printProtocol(protocol);
+            protocol.close();
+        }
 
-        if( errorHandler.isOK )
+        if( errorHandler.errorsMap.isEmpty() )
         {
             System.out.println("\r\nОшибок не обнаружено.");
+            return null;
         }
         else
         {
@@ -200,31 +225,31 @@ public class EgissoChecker
 
             StringWriter result = new StringWriter();
             errorHandler.printProtocol( new PrintWriter(result) );
+            return errorHandler.getErrorsMap();
         }
     }
 
-    protected Validator createValidator(String schemaFileName, PrintWriter errors) throws SAXException
+    protected Validator createValidator(String xsd, File fileErrors) throws SAXException, FileNotFoundException
     {
         SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
         factory.setErrorHandler(new XMLSchemaErrorHandler());
-        Schema schema = factory.newSchema( EgissoChecker.class.getClassLoader().getResource(schemaFileName) );
+        Schema schema = factory.newSchema( EgissoChecker.class.getClassLoader().getResource(xsd) );
 
         Validator validator = schema.newValidator();
         Locale ru = new Locale("ru");
         validator.setProperty("http://apache.org/xml/properties/locale", ru);
-        validator.setErrorHandler(new CheckerErrorHandler(errors));
+        validator.setErrorHandler(new CheckerErrorHandler(fileErrors));
 
         return validator;
     }
 
-    public Map<String, AtomicInteger> sortByValue(Map<String, AtomicInteger> unsortMap) 
+    public static Map<String, AtomicInteger> sortByValue(Map<String, AtomicInteger> unsortMap)
     {
-
         List<Map.Entry<String, AtomicInteger>> list = new LinkedList<Map.Entry<String, AtomicInteger>>(unsortMap.entrySet());
 
-        Collections.sort(list, new Comparator<Map.Entry<String, AtomicInteger>>() 
+        Collections.sort(list, new Comparator<Map.Entry<String, AtomicInteger>>()
         {
-            public int compare(Map.Entry<String, AtomicInteger> o1, Map.Entry<String, AtomicInteger> o2) 
+            public int compare(Map.Entry<String, AtomicInteger> o1, Map.Entry<String, AtomicInteger> o2)
             {
                 return o2.getValue().get() - o1.getValue().get();
             }
@@ -238,9 +263,28 @@ public class EgissoChecker
         return result;
     }
 
+    public static Map<String, AtomicInteger> sumByKey(Set<Map<String, AtomicInteger>> maps)
+    {
+        Map<String, AtomicInteger> result = new LinkedHashMap<String, AtomicInteger>();
+        for(Map<String, AtomicInteger> map : maps) 
+        {
+            for(Map.Entry<String, AtomicInteger> entry : map.entrySet() )
+            {
+                String key = entry.getKey();
+                if( !result.containsKey( key ) )
+                    result.put(key, entry.getValue());
+                else
+                    result.get(key).addAndGet( entry.getValue().get() );
+            }
+        }
+
+        return sortByValue(result);
+    }
+
     protected void logError(PrintWriter errors, SAXParseException e)
     {
-        errors.println(e.getLineNumber() + "\t" + e.getColumnNumber() + "\t" + getCode(e.getLocalizedMessage()) + "\t" + getMessage(e.getLocalizedMessage()) );
+        if( errors != null )
+            errors.println(e.getLineNumber() + "\t" + e.getColumnNumber() + "\t" + getCode(e.getLocalizedMessage()) + "\t" + getMessage(e.getLocalizedMessage()) );
     }
 
     protected String getCode(String message)
@@ -261,27 +305,33 @@ public class EgissoChecker
         return message;
     }
 
-    // /////////////////////////////////////////////////////////////////////////
-    // CheckerErrorHandler
-    // 
-
     public class CheckerErrorHandler implements ErrorHandler
     {
-        PrintWriter errors;
-        Map<String, AtomicInteger> errorsMap = new HashMap<>();
-        boolean isOK = true;
-        int errorNum;
+        private File fileErrors;
+        private PrintWriter errors;
+        private Map<String, AtomicInteger> errorsMap = new HashMap<>();
+        private int errorNum;
 
-        public CheckerErrorHandler(PrintWriter errors)
+        public CheckerErrorHandler(File fileErrors)
         {
-            this.errors = errors;
+            this.fileErrors = fileErrors;
+        }
+
+        public CheckerErrorHandler(Map<String, AtomicInteger> errorsMap)
+        {
+            this.errorsMap = errorsMap;
+        }
+
+        public Map<String, AtomicInteger> getErrorsMap()
+        {
+            return errorsMap;
         }
 
         public void error(SAXParseException e)
         {
+            createErrorFile();
             logError(errors, e);
 
-            isOK = false;
             errorNum++;
 
             String detailMessage = e.getMessage();
@@ -291,18 +341,21 @@ public class EgissoChecker
 
         public void fatalError(SAXParseException exception)
         {
-            isOK = false;
             System.out.println("Фатальная ошибка: " + exception);
         }
 
         public void warning(SAXParseException e)
         {
+            createErrorFile();
             logError(errors, e);
         }
 
         protected void printProtocol(PrintWriter protocol)
         {
-            if( isOK )
+            if( errors != null )
+                errors.close();
+
+            if( errorsMap.isEmpty() )
             {
                 protocol.println("\r\nОшибок не обнаружено.");
                 return;
@@ -318,16 +371,26 @@ public class EgissoChecker
                 protocol.println(entry.getValue() + "\t- " + getMessage(entry.getKey()) );
             }
         }
-    }
 
-    // /////////////////////////////////////////////////////////////////////////
-    // XMLSchemaErrorHandler
-    // 
+        private void createErrorFile()
+        {
+            try
+            {
+                if( fileErrors != null && errors == null ) 
+                    this.errors = new PrintWriter( fileErrors );
+            }
+            catch( FileNotFoundException ex )
+            {
+                throw new RuntimeException( ex );
+            }
+        }
+        
+    }
 
     public static class XMLSchemaErrorHandler implements ErrorHandler
     {
         boolean isOK = true;
-        
+
         public void error(SAXParseException e)
         {
             isOK = false;
