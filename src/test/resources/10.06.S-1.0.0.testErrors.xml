@@ -42,7 +42,7 @@
         </F:needsCriteria>
         <F:assignment_info>
           <F:monetary_form>
-            <F:amount>284.00</F:amount>
+            <amount>284.00</amount>
           </F:monetary_form>
         </F:assignment_info>
         <lastChanging>2017-09-19T12:19:24+03:00</lastChanging>
