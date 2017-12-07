@@ -90,7 +90,7 @@ public class EgissoChecker
             counter++;
             try
             {
-                Map<String, AtomicInteger> errorsMap = checkFile( fileName, true );
+                Map<String, AtomicInteger> errorsMap = checkFile( fileName, createFiles );
                 if( errorsMap != null && !errorsMap.isEmpty())
                     totalErrors.add(errorsMap);
             }
@@ -101,7 +101,7 @@ public class EgissoChecker
             }
         }
 
-        if( counter > 1 ) // create summarized protocol
+        if( createFiles && counter > 1 ) // create summarized protocol
         {
             Map<String, AtomicInteger> errorsMap = sumByKey(totalErrors);
             CheckerErrorHandler errorHandler = new EgissoChecker().new CheckerErrorHandler( errorsMap );
