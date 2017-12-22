@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<em:request xmlns:eta="urn://egisso-ru/types/app-RU-OSZ/1.0.1"
+            xmlns:em="urn://egisso-ru/msg/10.11.I/1.0.1">
+    <eta:application>
+    <eta:appID>af7cf860-4caa-41c5-bf15-f5d10dce9338</eta:appID>
+            <eta:OSZinfo>
+                <eta:modification>
+                <eta:OSZCode>0192.000000</eta:OSZCode>
+                <eta:title>Отдел пособий и социальных выплат р.п.Кольцово Новосибирской области</eta:title>
+                <eta:shortitle>ОПиСВ р.п.Кольцово</eta:shortitle>
+                <eta:inn>5412345789</eta:inn>
+                <eta:kpp>123456789</eta:kpp>
+                <eta:ogrn>1000000000001</eta:ogrn>
+                <eta:EMail>aa@aa.ru</eta:EMail>
+                <eta:siteURL/>
+                <eta:territories>
+                    <eta:OKTMOcode>50740000</eta:OKTMOcode>
+                </eta:territories>
+                </eta:modification>
+            </eta:OSZinfo>
+            <eta:document>
+                <eta:docnumber>FF 123</eta:docnumber>
+                <eta:docdate>2017-01-01</eta:docdate>
+                <eta:docname>Страховое свидетельство обязательного пенсионного страхования</eta:docname>
+            </eta:document>
+    </eta:application>
+</em:request>

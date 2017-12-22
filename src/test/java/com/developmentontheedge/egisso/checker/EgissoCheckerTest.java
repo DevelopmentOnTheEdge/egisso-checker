@@ -71,6 +71,14 @@ public class EgissoCheckerTest extends TestCase
         assertNull( checker.checkFile(relativePath + fileName, false) );
     }
 
+    public void testAppRuOsz() throws Exception
+    {
+        String fileName = "10.11.I-1.0.0.test.xml";
+
+        EgissoChecker checker = new EgissoChecker();
+        assertNull( checker.check(new String[] { relativePath + fileName }, false) );
+    }
+
     public void testErrors() throws Exception
     {
         String fileName = "10.06.S-1.0.0.testErrors.xml";

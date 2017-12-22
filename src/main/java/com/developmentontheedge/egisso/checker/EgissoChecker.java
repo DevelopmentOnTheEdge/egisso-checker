@@ -32,12 +32,13 @@ import org.xml.sax.SAXParseException;
 
 public class EgissoChecker
 {
-    private static final String VERSION = "0.1.2";
+    private static final String VERSION = "0.2.0";
 
     public enum Scheme
     {
         XSD_LOCAL_MSZ( "urn://egisso-ru/msg/10.05.I/1.0.3", "10.05.I-1.0.3.xsd" ),
-        XSD_ASSIGNMENT_FACT( "urn://egisso-ru/msg/10.06.S/1.0.0", "10.06.S-1.0.0.xsd" );
+        XSD_ASSIGNMENT_FACT( "urn://egisso-ru/msg/10.06.S/1.0.0", "10.06.S-1.0.0.xsd" ),
+        XSD_APP_RU_OSZ( "urn://egisso-ru/msg/10.11.I/1.0.1", "10.11.I-1.0.0.xsd" );
 
         final String urn;
         final String xsd;
@@ -151,6 +152,8 @@ public class EgissoChecker
                     return Scheme.XSD_LOCAL_MSZ;
                 else if( line.contains( Scheme.XSD_ASSIGNMENT_FACT.urn ) )
                     return Scheme.XSD_ASSIGNMENT_FACT;
+                else if( line.contains( Scheme.XSD_APP_RU_OSZ.urn ) )
+                    return Scheme.XSD_APP_RU_OSZ;
             }
         }
         finally
@@ -164,7 +167,8 @@ public class EgissoChecker
         System.out.println("\r\nНеправильный формат файла - не найдена подходящая схема для проверки.");
         System.out.println("Файл должен содержать подстроку: ");
         System.out.println(" - 'urn://egisso-ru/msg/10.05.I/1.0.3' - для файла с локальным классификатором услуг (ЛКМСЗ) или");
-        System.out.println(" - 'urn://egisso-ru/msg/10.06.S/1.0.0' - для файла с фактами назначений.");
+        System.out.println(" - 'urn://egisso-ru/msg/10.06.S/1.0.0' - для файла с фактами назначений или");
+        System.out.println(" - 'urn://egisso-ru/msg/10.11.I/1.0.1' - для файла со списками участников.");
 
         return null;
     }
@@ -176,7 +180,7 @@ public class EgissoChecker
         {
             String error = "\r\nНе найден файл для проверки: " + fileToCheck.getAbsolutePath();
             System.out.println(error);
-            return null;
+            return Collections.singletonMap(error, new AtomicInteger(1));
         }
 
         Scheme scheme = defineScheme(fileToCheck);
@@ -184,7 +188,7 @@ public class EgissoChecker
         {
             String error = "\r\nНе найдена схема для проверки файла: " + fileToCheck.getAbsolutePath();
             System.out.println(error);
-            return null;
+            return Collections.singletonMap(error, new AtomicInteger(1));
         }
 
         File fileProtocol = null;
