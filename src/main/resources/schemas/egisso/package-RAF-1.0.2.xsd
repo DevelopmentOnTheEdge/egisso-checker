@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.3"
+  xmlns:af="urn://egisso-ru/types/assignment-fact/1.0.2"
+  xmlns="urn://egisso-ru/types/package-RAF/1.0.2"
+  targetNamespace="urn://egisso-ru/types/package-RAF/1.0.2"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.3" schemaLocation="egisso-basic-types-1.0.3.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/assignment-fact/1.0.2" schemaLocation="assignment-fact-1.0.2.xsd" />
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: пакет изменений реестра фактов назначения
+  ****************************************************************************************************
+  -->
+  <xsd:element name="package" type="tPackage">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Пакет изменений реестра фактов назначения
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:complexType name="tPackage">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: пакет изменений реестра фактов назначения
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="packageID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор пакета данных
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="elements" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Новые и модифицированные элементы
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="fact" type="tFactAssignment" minOccurs="0" maxOccurs="unbounded">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Факт назначения МСЗ
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="termination" type="tFactTermination" minOccurs="0" maxOccurs="unbounded">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Факт прекращения ранее назначенной МСЗ
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="tFactAssignment">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: расширение типа af:tFactAssignment с целью доставки данных по созданию/модификации записи
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="af:tFactAssignment">
+        <xsd:sequence>
+          <xsd:element name="lastChanging" type="xsd:dateTime" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+              <xsd:documentation xml:lang="ru">
+                Дата последнего изменения
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="previosID" type="egisso:UUID" minOccurs="0" maxOccurs="1">
+            <xsd:annotation>
+              <xsd:documentation xml:lang="ru">
+                Идентификатор предыдущей модифицированной записи
+              </xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="tFactTermination">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: факт прекращения действия назначенной МСЗ
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="ID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор факта прекращения
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="assignmentFactID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор факта назначения, действие которого прекращается
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="dateFinish" type="xsd:date" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата прекращения действия назначения
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastChanging" type="xsd:dateTime" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата внесения изменения по прекращению
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

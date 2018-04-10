@@ -213,7 +213,7 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:string">
-      <xsd:pattern value="[0-9]+(\.|\,)\d{2}" />
+      <xsd:pattern value="[0-9]+[.,]\d{2}" />
     </xsd:restriction>
   </xsd:simpleType>
 
@@ -378,36 +378,154 @@
     </xsd:sequence>
   </xsd:complexType>
 
-  <xsd:complexType name="tFactId">
+  <xsd:simpleType name="rus-and-num">
     <xsd:annotation>
       <xsd:documentation xml:lang="ru">
-        Тип данных: Идентификатор факта назначения МСЗ
+        Русский текст. Допускаются также пробелы, цифры, точки, запятые, тире, апострофы, круглые скобки, знак №.
       </xsd:documentation>
     </xsd:annotation>
-  <xsd:sequence>
-    <xsd:element name="SNILS" type="smev:SNILSType" minOccurs="1" maxOccurs="1">
-      <xsd:annotation>
-        <xsd:documentation xml:lang="ru">
-          СНИЛС
-        </xsd:documentation>
-      </xsd:annotation>
-    </xsd:element>
-    <xsd:element name="MSZ" type="UUID" minOccurs="1" maxOccurs="1">
-      <xsd:annotation>
-        <xsd:documentation xml:lang="ru">
-          Идентификатор ЛМСЗ
-        </xsd:documentation>
-      </xsd:annotation>
-    </xsd:element>
-    <xsd:element name="decision_date" type="xsd:date" minOccurs="1" maxOccurs="1">
-      <xsd:annotation>
-        <xsd:documentation xml:lang="ru">
-          Дата принятия решения о назначении
-        </xsd:documentation>
-      </xsd:annotation>
-    </xsd:element>
-  </xsd:sequence>
-</xsd:complexType>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[а-яА-ЯёЁ\-0-9№(][а-яА-ЯёЁ\-\s'',.0-9()№]*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
 
+  <xsd:simpleType name="rus-and-num-200">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Русский текст, длиной до 200 символов.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="rus-and-num">
+      <xsd:maxLength value="200"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+  <!--===============================  Типы документов перенесенные из СМЭВ  ====================================-->
+
+  <xsd:complexType name="NotRestrictedDocumentType">
+    <xsd:annotation><xsd:documentation>Документ с нерегламентированными серией и номером</xsd:documentation></xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Series" type="smev:string-20" minOccurs="0">
+        <xsd:annotation><xsd:documentation>Серия</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Number">
+        <xsd:annotation><xsd:documentation>Номер</xsd:documentation></xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9а-яА-ЯA-Za-z]{1,25}"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="IssueDate" type="xsd:date">
+        <xsd:annotation><xsd:documentation>Дата выдачи</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Issuer" type="rus-and-num-200">
+        <xsd:annotation><xsd:documentation>Кем выдан</xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PassportRFType">
+    <xsd:annotation><xsd:documentation>Паспорт РФ</xsd:documentation></xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Series" type="smev:digits-4">
+        <xsd:annotation><xsd:documentation>Серия</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Number" type="smev:digits-6">
+        <xsd:annotation><xsd:documentation>Номер</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="IssueDate" type="xsd:date">
+        <xsd:annotation><xsd:documentation>Дата выдачи</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Issuer" type="rus-and-num-200">
+        <xsd:annotation><xsd:documentation>Кем выдан</xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="SovietPassportType">
+    <xsd:annotation><xsd:documentation>Паспорт CCCP или свидетельство о рождении РФ.</xsd:documentation></xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Series" type="smev:SovietStyleDocumentSeriesType">
+        <xsd:annotation><xsd:documentation>Серия</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Number" type="smev:digits-6">
+        <xsd:annotation><xsd:documentation>Номер</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="IssueDate" type="xsd:date">
+        <xsd:annotation><xsd:documentation>Дата выдачи</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Issuer" type="rus-and-num-200">
+        <xsd:annotation><xsd:documentation>Кем выдан</xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="InternationalPassportRFType">
+    <xsd:annotation><xsd:documentation>Загранпаспорт, либо вид на жительство в РФ.</xsd:documentation></xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Series" type="smev:digits-2">
+        <xsd:annotation><xsd:documentation>Серия</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Number" type="smev:digits-7">
+        <xsd:annotation><xsd:documentation>Номер</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="IssueDate" type="xsd:date">
+        <xsd:annotation><xsd:documentation>Дата выдачи</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Issuer" type="rus-and-num-200">
+        <xsd:annotation><xsd:documentation>Кем выдан</xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="MilitaryPassportDocumentType">
+    <xsd:annotation><xsd:documentation>Военный билет или паспорт моряка</xsd:documentation></xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Series">
+        <xsd:annotation><xsd:documentation>Серия</xsd:documentation></xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:length value="2"/>
+            <xsd:pattern value="[А-Я]{2}"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="Number" type="smev:digits-7">
+        <xsd:annotation><xsd:documentation>Номер</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="IssueDate" type="xsd:date">
+        <xsd:annotation><xsd:documentation>Дата выдачи</xsd:documentation></xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Issuer" type="rus-and-num-200">
+        <xsd:annotation><xsd:documentation>Кем выдан</xsd:documentation></xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:element name="PassportRF" type="PassportRFType">
+    <xsd:annotation><xsd:documentation>Паспорт РФ</xsd:documentation></xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="ForeignPassport" type="NotRestrictedDocumentType">
+    <xsd:annotation><xsd:documentation>Паспорт иностранного гражданина</xsd:documentation></xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="ResidencePermitRF" type="InternationalPassportRFType">
+    <xsd:annotation><xsd:documentation>Вид на жительство в РФ. Формат серии и номера совпадает с загранпаспортом.</xsd:documentation></xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="MilitaryPassport" type="MilitaryPassportDocumentType">
+    <xsd:annotation><xsd:documentation>Военный билет</xsd:documentation></xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="BirthCertificate" type="SovietPassportType">
+    <xsd:annotation><xsd:documentation>Свидетельство о рождении</xsd:documentation></xsd:annotation>
+  </xsd:element>
+
+  <xsd:element name="TemporaryIdentityCardRF" type="NotRestrictedDocumentType">
+    <xsd:annotation><xsd:documentation>Временное удостоверение личности гражданина РФ по форме 2П</xsd:documentation></xsd:annotation>
+  </xsd:element>
 
 </xsd:schema>
