@@ -45,6 +45,7 @@ public class EgissoCheckerTest extends TestCase
     {
         checkXSD(EgissoChecker.Scheme.XSD_ASSIGNMENT_FACT_1_0_0.xsd);
         checkXSD(EgissoChecker.Scheme.XSD_ASSIGNMENT_FACT_1_0_1.xsd);
+        checkXSD(EgissoChecker.Scheme.XSD_ASSIGNMENT_FACT_1_0_2.xsd);
     }
 
     public void testRuMessageBundle()

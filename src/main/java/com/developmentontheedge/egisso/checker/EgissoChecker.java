@@ -32,13 +32,14 @@ import org.xml.sax.SAXParseException;
 
 public class EgissoChecker
 {
-    private static final String VERSION = "0.2.1";
+    private static final String VERSION = "0.2.2";
 
     public enum Scheme
     {
         XSD_LOCAL_MSZ( "urn://egisso-ru/msg/10.05.I/1.0.3", "10.05.I-1.0.3.xsd" ),
         XSD_ASSIGNMENT_FACT_1_0_0( "urn://egisso-ru/msg/10.06.S/1.0.0", "10.06.S-1.0.0.xsd" ),
         XSD_ASSIGNMENT_FACT_1_0_1( "urn://egisso-ru/msg/10.06.S/1.0.1", "10.06.S-1.0.1.xsd" ),
+        XSD_ASSIGNMENT_FACT_1_0_2( "urn://egisso-ru/msg/10.06.S/1.0.2", "10.06.S-1.0.2.xsd" ),
         XSD_APP_RU_OSZ( "urn://egisso-ru/msg/10.11.I/1.0.1", "10.11.I-1.0.0.xsd" );
 
         final String urn;
@@ -155,6 +156,8 @@ public class EgissoChecker
                     return Scheme.XSD_ASSIGNMENT_FACT_1_0_0;
                 else if( line.contains( Scheme.XSD_ASSIGNMENT_FACT_1_0_1.urn ) )
                     return Scheme.XSD_ASSIGNMENT_FACT_1_0_1;
+                else if( line.contains( Scheme.XSD_ASSIGNMENT_FACT_1_0_2.urn ) )
+                    return Scheme.XSD_ASSIGNMENT_FACT_1_0_2;
                 else if( line.contains( Scheme.XSD_APP_RU_OSZ.urn ) )
                     return Scheme.XSD_APP_RU_OSZ;
             }

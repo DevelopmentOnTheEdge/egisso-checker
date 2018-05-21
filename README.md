@@ -11,11 +11,11 @@
 
 Для проверки .xml файла нужно выполнить команду:
 
-`java -jar egisso-checker-0.2.1.jar файл_для_проверки.xml`
+`java -jar egisso-checker-0.2.2.jar файл_для_проверки.xml`
 
 или
 
-`java -jar egisso-checker-0.2.1.jar` 
+`java -jar egisso-checker-0.2.2.jar` 
 
 для проверки всех файлов в текущей директории.
 
