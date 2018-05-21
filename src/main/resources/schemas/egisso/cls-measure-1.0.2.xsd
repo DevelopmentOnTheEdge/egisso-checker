@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
+  xmlns="urn://egisso-ru/types/cls-measure/1.0.2"
+  targetNamespace="urn://egisso-ru/types/cls-measure/1.0.2"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: элемент справочника единиц измерения
+  ****************************************************************************************************
+  -->
+
+  <xsd:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" schemaLocation="../smev3/smev-supplementary-commons-1.0.1.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
+
+  <xsd:element name="measure" type="tMeasurePosition">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Элемент справочника единиц измерения
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  
+  <xsd:complexType name="tMeasurePosition">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: элемент справочника единиц измерения
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="code" type="smev:digits-2" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Код
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="title" type="smev:string-100" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Наименование
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="shortitle" type="smev:string-20" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Краткое наименование
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OKEICode" type="egisso:tOKEICode" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Код по ОКЕИ
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="start_date" type="xsd:dateTime" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата начала действия записи
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="finish_date" type="xsd:dateTime" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата окончания действия записи
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+</xsd:schema>

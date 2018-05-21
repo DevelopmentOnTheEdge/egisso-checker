@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
+  xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+  xmlns="urn://egisso-ru/types/organization/1.0.2"
+  targetNamespace="urn://egisso-ru/types/organization/1.0.2"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: ЭЛЕМЕНТ РЕЕСТРА ОРГАНИЗАЦИЙ 
+  ****************************************************************************************************
+  -->
+
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
+  <xsd:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" schemaLocation="../smev3/smev-supplementary-commons-1.0.1.xsd" />
+
+  <xsd:element name="organization" type="tOrganization">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Элемент реестра организаций
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:complexType name="tOrganization">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: Элемент реестра организаций
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="contractID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор документа, в соответствии с которым выполняется предоставление МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="title" type="smev:string-100" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Наименование документа
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="number" type="smev:string-20" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Номер документа
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="contractor" type="smev:string-100" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Наименование ОГВ, заключившего договор
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="dateEnact" type="xsd:date" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата начала действия документа
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="dateExpiration" type="xsd:date" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Дата окончания действия документа
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="organizations" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Сведения об организациях, предоставляющих МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="organization" minOccurs="1" maxOccurs="unbounded">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Данные по организации
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="title" type="smev:string-100" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Наименование организации
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="siteURL" type="smev:string-100" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        URL сайта организации
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="license" type="smev:string-100" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Документ-обоснование
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="address" type="smev:string-100" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Фактический адрес
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="email" type="smev:EmailAddressType" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Электронная почта
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:choice>
+                    <xsd:element name="legalPerson" minOccurs="1" maxOccurs="1">
+                      <xsd:annotation>
+                        <xsd:documentation xml:lang="ru">
+                          Данные по организации: ЮЛ
+                        </xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="INN" type="smev:LegalPersonINNType" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                              <xsd:documentation xml:lang="ru">
+                                ИНН
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="KPP" type="smev:KPPType" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                              <xsd:documentation xml:lang="ru">
+                                КПП
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="individualBusinessman" minOccurs="1" maxOccurs="1">
+                      <xsd:annotation>
+                        <xsd:documentation xml:lang="ru">
+                          Данные по организации: ИП
+                        </xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="INN" type="smev:PhysicalPersonINNType" minOccurs="1" maxOccurs="1">
+                            <xsd:annotation>
+                              <xsd:documentation xml:lang="ru">
+                                ИНН
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:choice>
+                  <xsd:element name="localMSZ" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Предоставляемые МСЗ
+                      </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                      <xsd:sequence>
+                        <xsd:element name="localMSZID" type="egisso:UUID" minOccurs="1" maxOccurs="unbounded">
+                          <xsd:annotation>
+                            <xsd:documentation xml:lang="ru">
+                              Идентификатор предоставляемой МСЗ
+                            </xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:element>
+                      </xsd:sequence>
+                    </xsd:complexType>
+                  </xsd:element>
+                  <xsd:element name="presencePoints" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Точки присутствия
+                      </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                      <xsd:sequence>
+                        <xsd:element name="presencePoint" minOccurs="1" maxOccurs="unbounded">
+                          <xsd:annotation>
+                            <xsd:documentation xml:lang="ru">
+                              Точка присутствия
+                            </xsd:documentation>
+                          </xsd:annotation>
+                          <xsd:complexType>
+                            <xsd:sequence>
+                              <xsd:element name="title" type="smev:string-100" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                  <xsd:documentation xml:lang="ru">
+                                    Наименование
+                                  </xsd:documentation>
+                                </xsd:annotation>
+                              </xsd:element>
+                              <xsd:element name="town" type="smev:string-100" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                  <xsd:documentation xml:lang="ru">
+                                    Населенный пункт
+                                  </xsd:documentation>
+                                </xsd:annotation>
+                              </xsd:element>
+                              <xsd:element name="street" type="smev:string-100" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                  <xsd:documentation xml:lang="ru">
+                                    Улица
+                                  </xsd:documentation>
+                                </xsd:annotation>
+                              </xsd:element>
+                              <xsd:element name="house" type="smev:string-20" minOccurs="1" maxOccurs="1">
+                                <xsd:annotation>
+                                  <xsd:documentation xml:lang="ru">
+                                    Дом
+                                  </xsd:documentation>
+                                </xsd:annotation>
+                              </xsd:element>
+                              <xsd:element name="housing" type="smev:string-20" minOccurs="0" maxOccurs="1">
+                                <xsd:annotation>
+                                  <xsd:documentation xml:lang="ru">
+                                    Корпус
+                                  </xsd:documentation>
+                                </xsd:annotation>
+                              </xsd:element>
+                              <xsd:element name="building" type="smev:string-20" minOccurs="0" maxOccurs="1">
+                                <xsd:annotation>
+                                  <xsd:documentation xml:lang="ru">
+                                    Строение
+                                  </xsd:documentation>
+                                </xsd:annotation>
+                              </xsd:element>
+                              <xsd:element name="note" type="smev:string-100" minOccurs="0" maxOccurs="1">
+                                <xsd:annotation>
+                                  <xsd:documentation xml:lang="ru">
+                                    Описание
+                                  </xsd:documentation>
+                                </xsd:annotation>
+                              </xsd:element>
+                            </xsd:sequence>
+                          </xsd:complexType>
+                        </xsd:element>
+                      </xsd:sequence>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+</xsd:schema>

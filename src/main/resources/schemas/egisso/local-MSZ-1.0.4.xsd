@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.3"
+  xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+  xmlns="urn://egisso-ru/types/local-MSZ/1.0.4"
+  targetNamespace="urn://egisso-ru/types/local-MSZ/1.0.4"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: локальная МСЗ
+  ****************************************************************************************************
+  -->
+
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.3" schemaLocation="egisso-basic-types-1.0.3.xsd" />
+  <xsd:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" schemaLocation="../smev3/smev-supplementary-commons-1.0.1.xsd" />
+
+  <xsd:element name="localMSZ" type="tLocalMSZ">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        локальная МСЗ
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:complexType name="tLocalMSZ">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: локальная МСЗ
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="ID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Идентификатор
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="code" type="smev:string-20" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Код
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="title">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Наименование
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="2000"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="dateEnact" type="xsd:date" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Начало действия
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="dateExpiration" type="xsd:date" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Окончание действия
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="periodicityCode" type="smev:digits-2" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Код периодичности предоставления
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="classificationKMSZ" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Классификация ЛМСЗ по КМСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="codePartKMSZ" type="smev:digits-6" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Код раздела КМСЗ
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="codeMSZ" type="smev:digits-4" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Код МСЗ
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="codeProvisionForm" type="smev:digits-2" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Код формы предоставления
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="codeLevelNPA" type="smev:digits-2" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Код уровня НПА
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="localCategories" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Категории получателей
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="localCategory" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Категория
+                      </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                      <xsd:sequence>
+                        <xsd:element name="ID" type="egisso:UUID" minOccurs="1" maxOccurs="1">
+                          <xsd:annotation>
+                            <xsd:documentation xml:lang="ru">
+                              Идентификатор
+                            </xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="code" type="smev:string-20" minOccurs="0" maxOccurs="1">
+                          <xsd:annotation>
+                            <xsd:documentation xml:lang="ru">
+                              Код
+                            </xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="title">
+                          <xsd:annotation>
+                            <xsd:documentation xml:lang="ru">
+                              Наименование
+                            </xsd:documentation>
+                          </xsd:annotation>
+                          <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="2000"/>
+                            </xsd:restriction>
+                          </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="codeCategoryKMSZ" minOccurs="1" maxOccurs="1">
+                          <xsd:annotation>
+                            <xsd:documentation xml:lang="ru">
+                              Код типовой категории КМСЗ
+                            </xsd:documentation>
+                          </xsd:annotation>
+                          <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                              <xsd:pattern value="\d{8}" />
+                            </xsd:restriction>
+                          </xsd:simpleType>
+                        </xsd:element>
+                      </xsd:sequence>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="cofinancing" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Сведения о софинансировании ЛМСЗ
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="fundingSource" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Софинансирование ЛМСЗ
+                      </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                      <xsd:sequence>
+                        <xsd:element name="codeFundingSource" type="smev:digits-4">
+                          <xsd:annotation>
+                            <xsd:documentation xml:lang="ru">
+                              Код источника финансирования
+                            </xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="quota">
+                          <xsd:annotation>
+                            <xsd:documentation xml:lang="ru">
+                              Доля финансирования в процентах
+                            </xsd:documentation>
+                          </xsd:annotation>
+                          <xsd:simpleType>
+                            <xsd:restriction base="xsd:decimal">
+                              <xsd:minExclusive value="0" />
+                              <xsd:maxInclusive value="100" />
+                            </xsd:restriction>
+                          </xsd:simpleType>
+                        </xsd:element>
+                      </xsd:sequence>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="estimation" type="smev:string-500" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Расчетная сумма (Правила расчета)
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="territories" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Территории предоставления ЛМСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="codeOKTMO" minOccurs="1" maxOccurs="unbounded">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Код территории по ОКТМО
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:pattern value="\d{8}" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="reasons" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Основания для внесения ЛМСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="NPA" minOccurs="1" maxOccurs="unbounded">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  НПА
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="number" type="smev:string-20" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Номер НПА
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="date" type="xsd:date" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Дата принятия НПА
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="title" type="smev:string-500" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Наименование НПА
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="authority" type="smev:string-500" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Орган принявший НПА
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element name="URL">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Ссылка
+                      </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                      <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="1000"/>
+                      </xsd:restriction>
+                    </xsd:simpleType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+        <xsd:element name="KBKCode" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                    КБК
+                </xsd:documentation>
+            </xsd:annotation>
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="\S{20}" />
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+  xmlns="urn://egisso-ru/types/prsn-request/1.0.0"
+  targetNamespace="urn://egisso-ru/types/prsn-request/1.0.0"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <xsd:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" schemaLocation="../smev3/smev-supplementary-commons-1.0.1.xsd" />
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: запрос сведений по СНИЛС получателя МСЗ
+  ****************************************************************************************************
+  -->
+  <xsd:element name="requestData" type="tRequestedPersonData">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        сведения о запрашиваемом получателе МСЗ
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:complexType name="tRequestedPersonData">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: сведения о запрашиваемом получателе МСЗ
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="SNILS" type="smev:SNILSType" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            СНИЛС получателя МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="serviceTitle" type="smev:string-500" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Наименование государственной услуги для предоставления которой запрашиваются сведения
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NPAInfo" type="smev:string-500" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Положения НПА обосновывающие запрос
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="personInfo" type="smev:string-500" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            ФИО, должность, номер служебного телефона, e-mail лица направившего запрос
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

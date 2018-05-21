@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
+  xmlns="urn://egisso-ru/types/cls-version-activate/1.0.2"
+  targetNamespace="urn://egisso-ru/types/cls-version-activate/1.0.2"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: активация версии общесистемного справочника/классификатора
+  ****************************************************************************************************
+  -->
+
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
+
+  <xsd:element name="clsVersionActivate" type="tClsVersionActivate">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Сведения об активируемой версии
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  
+  <xsd:complexType name="tClsVersionActivate">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: активация версии общесистемного справочника/классификатора
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="classifierCode" type="egisso:tClsCode" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Код классификатора
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="versions" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Измененные версии
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="version" type="egisso:tClsVersion" minOccurs="1" maxOccurs="2">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Версия
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+</xsd:schema>

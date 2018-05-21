@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
+  xmlns="urn://egisso-ru/types/cls-request/1.0.2"
+  targetNamespace="urn://egisso-ru/types/cls-request/1.0.2"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: запрос содержимого классификатора ЕГИССО
+  ****************************************************************************************************
+  -->
+
+  <xsd:element name="classifierCode" type="tRequestedClassifierCode">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Код запрашиваемого классификатора
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:simpleType name="tRequestedClassifierCode">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: код запрашиваемого классификатора
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="egisso:tClsCode">
+      <xsd:enumeration value="010">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Классификатор МСЗ (полный)
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="022">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Справочник периодичности предоставления МСЗ
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="023">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Справочник единиц измерения
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+</xsd:schema>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.2"
+  xmlns:smev="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1"
+  xmlns="urn://egisso-ru/types/cls-OKSM-version/1.0.0"
+  targetNamespace="urn://egisso-ru/types/cls-OKSM-version/1.0.0"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: версия справочника стран мира на базе ОКСМ
+  ****************************************************************************************************
+  -->
+
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.2" schemaLocation="egisso-basic-types-1.0.2.xsd" />
+  <xsd:import namespace="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" schemaLocation="../smev3/smev-supplementary-commons-1.0.1.xsd" />
+
+  <xsd:element name="version" type="tClsOKSMVersion">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        версия справочника стран мира на базе ОКСМ
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  
+  <xsd:complexType name="tClsOKSMVersion">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: версия справочника стран мира на базе ОКСМ
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="egisso:tClsVersion">
+        <xsd:sequence>
+          <xsd:element name="records" minOccurs="1" maxOccurs="1">
+            <xsd:annotation>
+              <xsd:documentation xml:lang="ru">
+                Набор записей справочника
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="record" minOccurs="1" maxOccurs="unbounded">
+                  <xsd:annotation>
+                    <xsd:documentation xml:lang="ru">
+                      Запись справочника
+                    </xsd:documentation>
+                  </xsd:annotation>
+                  <xsd:complexType>
+                    <xsd:sequence>
+                      <xsd:element name="d-code" minOccurs="1" maxOccurs="1">
+                        <xsd:annotation>
+                          <xsd:documentation xml:lang="ru">
+                            Цифровой код
+                          </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string">
+                            <xsd:pattern value="\d{3}" />
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="a-code2" minOccurs="1" maxOccurs="1">
+                        <xsd:annotation>
+                          <xsd:documentation xml:lang="ru">
+                            2-х буквенный код
+                          </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string">
+                            <xsd:pattern value="[A-Z]{2}" />
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="a-code3" minOccurs="1" maxOccurs="1">
+                        <xsd:annotation>
+                          <xsd:documentation xml:lang="ru">
+                            3-х буквенный код
+                          </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string">
+                            <xsd:pattern value="[A-Z]{3}" />
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element name="title" type="smev:string-100" minOccurs="1" maxOccurs="1">
+                        <xsd:annotation>
+                          <xsd:documentation xml:lang="ru">
+                            Краткое наименование
+                          </xsd:documentation>
+                        </xsd:annotation>
+                      </xsd:element>
+                      <xsd:element name="fullTitle" type="smev:string-200" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                          <xsd:documentation xml:lang="ru">
+                            Полное наименование
+                          </xsd:documentation>
+                        </xsd:annotation>
+                      </xsd:element>
+                    </xsd:sequence>
+                  </xsd:complexType>
+                </xsd:element>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+</xsd:schema>

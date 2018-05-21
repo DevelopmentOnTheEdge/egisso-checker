@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:egisso="urn://egisso-ru/types/basic/1.0.3"
+  xmlns:p-result="urn://egisso-ru/types/package-result/1.0.2"
+  xmlns:r-result="urn://egisso-ru/types/record-result/1.0.3"
+  xmlns="urn://egisso-ru/types/package-protocol/1.0.3"
+  targetNamespace="urn://egisso-ru/types/package-protocol/1.0.3"
+  elementFormDefault="qualified"
+  attributeFormDefault="unqualified"
+>
+
+  <!--
+  ****************************************************************************************************
+  Тип данных: «ПРОТОКОЛ ЗАГРУЗКИ И ПРОВЕРКИ ПАКЕТА ДАННЫХ (PACKAGE-PROTOCOL)»
+  ****************************************************************************************************
+  -->
+
+  <xsd:import namespace="urn://egisso-ru/types/basic/1.0.3" schemaLocation="egisso-basic-types-1.0.3.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/package-result/1.0.2" schemaLocation="package-result-1.0.2.xsd" />
+  <xsd:import namespace="urn://egisso-ru/types/record-result/1.0.3" schemaLocation="record-result-1.0.3.xsd" />
+
+  <xsd:element name="protocol" type="tPackageProtocol">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Протокол загрузки и проверки пакета данных
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+
+  <xsd:complexType name="tPackageProtocol">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: Протокол загрузки и проверки пакета данных
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:choice>
+      <xsd:element name="messageResult" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Результат обработки сообщения
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="receivingTime" type="xsd:dateTime" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Дата и время приема сообщения
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="processingTime" type="xsd:dateTime" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Дата и время обработки сообщения
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="errors" minOccurs="1" maxOccurs="1">
+              <xsd:annotation>
+                <xsd:documentation xml:lang="ru">
+                  Перечень ошибок сообщения
+                </xsd:documentation>
+              </xsd:annotation>
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="error" type="egisso:tError" minOccurs="1" maxOccurs="unbounded">
+                    <xsd:annotation>
+                      <xsd:documentation xml:lang="ru">
+                        Ошибка обработки сообщения
+                      </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="packageResult" type="tPackageResult" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="ru">
+            Результат обработки пакета данных
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:complexType name="tPackageResult">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="ru">
+        Тип данных: Расширение стандартного типа результата обработки пакета данных перечнем ошибочных записей
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="p-result:tPackageResult">
+        <xsd:sequence>
+          <xsd:element name="errorRecords" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation xml:lang="ru">
+                Перечень ошибочных элементов
+              </xsd:documentation>
+            </xsd:annotation>
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element ref="r-result:recordResult" minOccurs="1" maxOccurs="unbounded">
+                  <xsd:annotation>
+                    <xsd:documentation xml:lang="ru">
+                      результат обработки записи пакета данных
+                    </xsd:documentation>
+                  </xsd:annotation>
+                </xsd:element>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>
